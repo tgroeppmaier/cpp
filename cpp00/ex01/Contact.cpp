@@ -23,6 +23,14 @@ Contact::~Contact()
 
 }
 
+void Contact::PrintContact() const {
+	std::cout << "First name: " << first_name_ << "\n";
+	std::cout << "Last name: " << last_name_ << "\n";
+	std::cout << "Nick name: " << nick_name_ << "\n";
+	std::cout << "Phone number: " << phone_number_ << "\n";
+	std::cout << "Secret: " << secret_ << "\n";
+}
+
 void Contact::SetContact(std::string first_name,
 						 std::string last_name, 
 						 std::string nick_name,

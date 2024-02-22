@@ -48,6 +48,16 @@ Note that all the member functions defined inside the class definition are by de
 
 ```
 
+### Difference between cin and getline
+
+The difference between std::cin >> first_name; and std::getline(std::cin, first_name); lies in how they handle whitespace characters:
+
+std::cin >> first_name; This line of code reads input until it encounters a whitespace character (like a space, tab, or newline). For example, if the user enters "John Doe", first_name will only store "John".
+
+std::getline(std::cin, first_name); This line of code reads an entire line of input until it encounters a newline character (which is added when the user presses Enter). In the same example, if the user enters "John Doe", first_name will store the entire string, "John Doe".
+
+So, if you expect the input to contain spaces and you want to store the entire input in a single string, you should use std::getline(). If you only want to store a single word, you can use std::cin >>.
+
 ### Const Member Function
 
 A const member function is a member function that guarantees it will not modify the object and its data members, or call any other member functions that are not const.
