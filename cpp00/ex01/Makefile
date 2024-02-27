@@ -1,27 +1,22 @@
-# Define the C++ compiler to use
-CXX = g++
+CC = g++
+CFLAGS = -Wall -Wextra -Werror -g -std=c++98
+NAME = phonebook 
+SRC = main.cpp PhoneBook.cpp Contact.cpp
+OBJ = $(SRC:.cpp=.o)
+HEADER = PhoneBook.hpp Contact.hpp
 
-# Define any compile-time flags
-CXXFLAGS = -Wall -g -std=c++98
+all: $(NAME)
 
-# Define the target file (executable)
-TARGET = main
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
-# Define the C++ source files
-SRCS = main.cpp PhoneBook.cpp Contact.cpp
-
-# Define the C++ object files 
-OBJS = $(SRCS:.cpp=.o)
-
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
-
-.cpp.o:
-	$(CXX) $(CXXFLAGS) -c $<  -o $@
+%.o: %.cpp $(HEADER)
+	$(CC) $(CFLAGS) -c $<  -o $@
 
 clean:
-	$(RM) $(TARGET) $(OBJS)
+	rm -f $(OBJ)
 
-re: clean all
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
