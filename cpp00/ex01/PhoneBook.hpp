@@ -24,12 +24,4 @@ class PhoneBook {
 	 int		index;
 };
 
-
-
-
-
-
-
-
-
 #endif

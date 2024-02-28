@@ -1,1 +1,6 @@
 *.o
+*.json
+phonebook
+*vscode*
+*settings*
+.vscode/settings.json

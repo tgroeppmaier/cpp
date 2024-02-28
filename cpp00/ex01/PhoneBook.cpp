@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <limits>
 #include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook() : index(0) {
@@ -54,25 +55,31 @@ void PhoneBook::Search() const
 		std::cout << "||" << std::endl;
 	}
 
-	int index;
-	
-	do {
-		std::cout << "Enter the index of the contact you want to view: ";
-		std::cin >> index;
-		if (index >= 0 && index < 9) {
-			std::cout << "Contact information for index " << index << ":\n";
+int index;
+do {
+	std::cout << "Enter the index of the contact you want to view: ";
+	std::cin >> index;
+
+	if (std::cin.fail()) {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "Invalid input. Please enter a number.\n";
+		continue;
+	}
+
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	if (index >= 0 && index < 8) {
+		std::cout << "Contact information for index " << index << ":\n";
 			std::cout << "First name: " << contacts[index].GetFirstName() << "\n";
 			std::cout << "Last name: " << contacts[index].GetLastName() << "\n";
 			std::cout << "Nickname: " << contacts[index].GetNickName() << "\n";
 			std::cout << "Telephone number: " << contacts[index].GetPhoneNumber() << "\n";
 			std::cout << "Secret: " << contacts[index].GetSecret() << "\n";
 			break;
-		}
-		else {
-			std::cout << "Invalid index. Please enter a number between 0 and 7.\n";
-		}
-	} while (true);
-
-    
+	} else {
+		std::cout << "Invalid index. Please enter a number between 0 and 7.\n";
+	}
+} while (true);
 
 }
