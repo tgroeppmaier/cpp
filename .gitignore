@@ -1,0 +1,5 @@
+*.json
+*.out
+*.log
+*.o
+main
