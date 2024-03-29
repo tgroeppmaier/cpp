@@ -58,6 +58,22 @@ std::getline(std::cin, first_name); This line of code reads an entire line of in
 
 So, if you expect the input to contain spaces and you want to store the entire input in a single string, you should use std::getline(). If you only want to store a single word, you can use std::cin >>.
 
+### Clearing cin
+
+After reading an int with cin we have to clear out the remaining '\n' character in the buffer
+
+``` cpp
+std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+```
+
+### Insertion operator
+
+In C++, the `<<` operator is known as the insertion or put-to operator. When used with `std::cout`, it inserts the data on its right into the output stream, which is typically the console.
+
+For example, in the line `std::cout << "Hello, World!";`, the string `"Hello, World!"` is inserted into the output stream, causing it to be printed to the console.
+
+The `<<` operator can be chained to insert multiple pieces of data into the output stream in one statement. For example, `std::cout << "Hello, " << "World!";` will print "Hello, World!" to the console.
+
 ### Const Member Function
 
 A const member function is a member function that guarantees it will not modify the object and its data members, or call any other member functions that are not const.
