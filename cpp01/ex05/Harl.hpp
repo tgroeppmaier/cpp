@@ -12,7 +12,7 @@ private:
 
     struct ComplaintLevel {
         std::string level;
-        void (Harl::*complaintFunc)();
+        void (Harl::*complaintFunc)(); // pointer to member function
     };
 
     static const ComplaintLevel complaintLevels[];
