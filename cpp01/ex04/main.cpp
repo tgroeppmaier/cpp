@@ -34,7 +34,7 @@ int main()
 
     while (std::getline(file, line)) {
         std::string::size_type pos = 0;
-        while ((pos = line.find(s1, pos)) != std::string::npos) {
+        while ((pos = line.find(s1, pos)) != std::string::npos) { // pos is position before s1
             line = line.substr(0, pos) + s2 + line.substr(pos + s1.length());
             pos += s2.length();
         }
