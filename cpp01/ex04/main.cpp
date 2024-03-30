@@ -33,7 +33,7 @@ int main()
     std::cout << "replacing all " << s1 << " with " << s2 << std::endl;
 
     while (std::getline(file, line)) {
-        std::string::size_type pos = 0;
+        std::string::size_type pos = 0; // can safely and portably handle any possible string size
         while ((pos = line.find(s1, pos)) != std::string::npos) { // pos is position before s1
             line = line.substr(0, pos) + s2 + line.substr(pos + s1.length());
             pos += s2.length();
