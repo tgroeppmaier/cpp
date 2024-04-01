@@ -22,6 +22,25 @@ public:
     float toFloat(void) const;
     int toInt() const;
     
+/* ex02 */
+
+    bool operator>(const Fixed &other) const;
+    bool operator<(const Fixed &other) const;
+    bool operator>=(const Fixed &other) const;
+    bool operator<=(const Fixed &other) const;
+    bool operator==(const Fixed &other) const;
+    bool operator!=(const Fixed &other) const;
+
+    Fixed operator+(const Fixed &other) const;
+    Fixed operator-(const Fixed &other) const;
+    Fixed operator*(const Fixed &other) const;
+    Fixed operator/(const Fixed &other) const;
+
+    Fixed& operator++();    // Pre-increment
+    Fixed operator++(int);  // Post-increment
+    Fixed& operator--();    // Pre-decrement
+    Fixed operator--(int);  // Post-decrement
+
     };
 
     std::ostream& operator<<(std::ostream& out, const Fixed& fixed);

@@ -60,3 +60,70 @@ std::ostream& operator<<(std::ostream& out, const Fixed& fixed) {
     out << fixed.toFloat();
     return out;
 }
+
+/* ex02 */
+
+bool Fixed::operator>(const Fixed &other) const {
+    return value_ > other.value_;
+}
+
+bool Fixed::operator<(const Fixed &other) const {
+    return value_ < other.value_;
+}
+
+bool Fixed::operator>=(const Fixed &other) const {
+    return value_ >= other.value_;
+}
+
+bool Fixed::operator<=(const Fixed &other) const {
+    return value_ <= other.value_;
+}
+
+bool Fixed::operator==(const Fixed &other) const {
+    return value_ == other.value_;
+}
+
+bool Fixed::operator!=(const Fixed &other) const {
+    return value_ != other.value_;
+}
+
+/* creates new Fixed Object wit */
+
+Fixed Fixed::operator+(const Fixed &other) const {
+    return Fixed(toFloat() + other.toFloat());
+}
+
+Fixed Fixed::operator-(const Fixed &other) const {
+    return Fixed(toFloat() - other.toFloat());
+}
+
+Fixed Fixed::operator*(const Fixed &other) const {
+    return Fixed(toFloat() * other.toFloat());
+}
+
+Fixed Fixed::operator/(const Fixed &other) const {
+    return Fixed(toFloat() / other.toFloat());
+}
+
+Fixed& Fixed::operator++() {
+    value_ += 1;
+    return *this;
+}
+
+Fixed Fixed::operator++(int) {
+    Fixed temp(*this);
+    operator++();
+    return temp;
+}
+
+Fixed& Fixed::operator--() {
+    value_ -= 1;
+    return *this;
+}
+
+Fixed Fixed::operator--(int) {
+    Fixed temp(*this);
+    operator--();
+    return temp;
+}
+
