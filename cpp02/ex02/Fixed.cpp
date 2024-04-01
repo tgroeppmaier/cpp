@@ -87,8 +87,6 @@ bool Fixed::operator!=(const Fixed &other) const {
     return value_ != other.value_;
 }
 
-/* creates new Fixed Object wit */
-
 Fixed Fixed::operator+(const Fixed &other) const {
     return Fixed(toFloat() + other.toFloat());
 }
@@ -127,3 +125,18 @@ Fixed Fixed::operator--(int) {
     return temp;
 }
 
+Fixed& Fixed::min(Fixed& a, Fixed& b) {
+    return (a < b) ? a : b;
+}
+
+const Fixed& Fixed::min(const Fixed& a, const Fixed& b) {
+    return (a < b) ? a : b;
+}
+
+Fixed& Fixed::max(Fixed& a, Fixed& b) {
+    return (a > b) ? a : b;
+}
+
+const Fixed& Fixed::max(const Fixed& a, const Fixed& b) {
+    return (a > b) ? a : b;
+}
