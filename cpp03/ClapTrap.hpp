@@ -2,18 +2,29 @@
 #define CLAPTRAP_HPP
 
 #include <string>
+using std::string;
 
 class ClapTrap {
 private:
-    std::string m_name;
+    string m_name;
     int m_hit_points;
     int m_energy_points;
     int m_attack_dmg;
 
 public:
-    ClapTrap() 
+    // Default constructor
+    ClapTrap();
 
-    void attack(const std::string& target);
+    // Copy constructor
+    ClapTrap(const ClapTrap& other);
+
+    // Assignment operator
+    ClapTrap& operator=(const ClapTrap& other);
+
+    // Destructor
+    ~ClapTrap();
+
+    void attack(const string& target);
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
 

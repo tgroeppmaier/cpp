@@ -177,5 +177,86 @@ int main() {
 }
 ```
 
-## Constructor and Destructor
+## Constructor and Destructor in C++
 
+In C++, **constructors** and **destructors** are special member functions of a class. They are automatically called when objects of the class are created and destroyed, respectively.
+
+### Constructor
+
+A **constructor** is used to initialize the object's state. It has the same name as the class and doesn't have a return type. There can be multiple constructors in a class, including:
+
+- **Default constructor**: Takes no parameters.
+- **Parameterized constructors**: Takes parameters.
+- **Copy constructor**: Takes a reference to an object of the same class as a parameter.
+
+### Destructor
+
+A **destructor** is used to clean up resources that the object may have acquired during its lifetime. It has the same name as the class but is preceded by a tilde (~). There can only be one destructor in a class and it cannot take parameters or return a value.
+
+## References in C++
+
+In C++, a **reference** is a type of alias or nickname for an existing variable. A reference, once initialized with a variable, can then be used to access the variable's value.
+
+Key points about references:
+
+- A reference must be initialized when it is declared.
+- The reference itself can't be changed to refer to another variable.
+- A reference shares the same memory address as the variable it's referring to.
+- References are particularly useful for C++ function arguments, allowing for pass-by-reference semantics where a function can modify the value of the argument.
+- References are safer and easier to use than pointers. They always refer to a valid object and can't be null.
+
+### References vs Pointers in C++
+
+Both **references** and **pointers** in C++ are used to indirectly access different variables in memory, but they have some key differences:
+
+- **Initialization**: A reference must be initialized when it is declared and cannot be reseated to refer to another object. A pointer can be declared first and initialized later, and it can be reassigned to point to another object.
+
+- **Nullability**: A reference always refers to an object, it cannot be null. A pointer can be null, indicating that it doesn't point to any object.
+
+- **Indirection**: A reference is used directly as an alias for the original variable and doesn't need dereferencing. A pointer requires dereferencing to access the variable it points to.
+
+- **Arithmetic**: Pointer arithmetic (increment/decrement to move to another memory location) is allowed, but there is no such concept for references.
+
+In general, references are safer and easier to use than pointers. They are often used when you want to establish a simple link to an object. Pointers provide more flexibility and control, but with the added risk of potential issues like null pointers and dangling pointers.
+
+### Dangling References
+
+A dangling reference in C++ occurs when a reference is used to access a variable or object that has already been deallocated or out of scope. This can lead to undefined behavior, as the reference may now point to some other data or be in an invalid state.
+
+```cpp
+int& danglingReference() {
+	int a = 5;
+	return a;
+}
+
+int main() {
+	int& ref = danglingReference();
+	// 'ref' is now a dangling reference because 'a' has gone out of scope
+}
+```
+
+To avoid dangling references:
+
+Don't return local variables by reference.
+Don't let a reference outlive the object it refers to.
+Be careful when using references inside classes. If a class has a reference member, make sure the object it refers to doesn't get destroyed before the class instance.
+
+## Assignment Operator in C++
+
+In C++, the **assignment operator** (`operator=`) is a special member function that is used to copy the values from one object to another. It's called when an already initialized object is assigned a new value from another existing object.
+
+The assignment operator:
+
+- Takes a constant reference to another object of the same class as a parameter.
+- Returns a reference to the object, allowing for chain assignment like `a = b = c`.
+- Performs a deep copy of the values from the other object to the current object.
+- Includes a self-assignment check (`if (this != &other)`) to prevent self-assignment, which could lead to unexpected results or wasted resources.
+
+## Orthodox canonical form
+
+In C++98 and C++03 the OCCF had four different methods that the C++ compiler is willing to generate:
+
+- **Default Constructor**
+- **Copy Constructor**
+- **Destructor**
+- **Copy Assignment Operator**
