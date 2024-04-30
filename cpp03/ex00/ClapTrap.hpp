@@ -14,6 +14,8 @@ private:
 public:
     // Default constructor
     ClapTrap();
+    
+    ClapTrap(const string& name);
 
     // Copy constructor
     ClapTrap(const ClapTrap& other);
