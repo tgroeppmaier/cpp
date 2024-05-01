@@ -2,9 +2,8 @@
 #define CLAPTRAP_HPP
 
 #include <string>
-using std::string;
 
-// using std::cout;
+using std::string;
 
 class ClapTrap {
 private:
@@ -12,7 +11,6 @@ private:
     unsigned int m_hit_points;
     unsigned int m_energy_points;
     unsigned int m_attack_dmg;
-
 
 public:
     static const unsigned int MAX_HP = 100;
@@ -41,7 +39,6 @@ public:
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
     void printValues();
-
 };
 
 #endif
