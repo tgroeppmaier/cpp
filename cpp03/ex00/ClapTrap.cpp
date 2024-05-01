@@ -6,11 +6,15 @@ using std::cout;
 
 // Default constructor
 ClapTrap::ClapTrap() : m_name("Default"), m_hit_points(10), m_energy_points(10), m_attack_dmg(0) {
-    cout << "Default constructor called on " << this->m_name << '\n';
+    cout << "Default constructor called on " << m_name << '\n';
 }
 
-// Parameterized constructor
+// Parameterized constructor name
 ClapTrap::ClapTrap(const string& name) : m_name(name), m_hit_points(10), m_energy_points(10), m_attack_dmg(0) {
+    cout << "Parameterized constructor called on " << this->m_name << '\n';
+}
+// Parameterized constructor
+ClapTrap::ClapTrap(const string& name, uint hp, uint ep, uint ad) : m_name(name), m_hit_points(hp), m_energy_points(ep), m_attack_dmg(ad) {
     cout << "Parameterized constructor called on " << this->m_name << '\n';
 }
 
@@ -18,9 +22,7 @@ ClapTrap::ClapTrap(const string& name) : m_name(name), m_hit_points(10), m_energ
 ClapTrap::ClapTrap(const ClapTrap& other) 
     : m_name(other.m_name), m_hit_points(other.m_hit_points), 
       m_energy_points(other.m_energy_points), m_attack_dmg(other.m_attack_dmg) {
-        cout << "Copy constructor called and values copies from " << other.m_name << '\n';
-        
-      }
+        cout << "Copy constructor called and values copied from ClapTrap named " << other.m_name << '\n';      }
 
 // Destructor
 ClapTrap::~ClapTrap() {
@@ -40,6 +42,6 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
 }
 
 void ClapTrap::attack(const string& target){
-    cout << m_name << " attacks " << target << " for "
+    cout << m_name << " attacks " << target << " for " << 
 
 }

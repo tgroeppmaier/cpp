@@ -18,6 +18,8 @@ public:
     
     ClapTrap(const string& name);
 
+    ClapTrap(const string& name, uint hp, uint ep, uint ad);
+
     // Copy constructor
     ClapTrap(const ClapTrap& other);
 
