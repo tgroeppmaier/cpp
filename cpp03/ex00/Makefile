@@ -1,9 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -g -std=c++98
 NAME = main 
-SRC = main.cpp Fixed.cpp
+SRC = main.cpp ClapTrap.cpp
 OBJ = $(SRC:.cpp=.o)
-HEADER = Fixed.hpp
+HEADER = ClapTrap.hpp
 
 all: $(NAME)
 

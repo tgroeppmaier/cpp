@@ -3,7 +3,7 @@
 
 #include <string>
 using std::string;
-using std::cout;
+// using std::cout;
 
 class ClapTrap {
 private:
