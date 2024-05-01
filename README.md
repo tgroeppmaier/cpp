@@ -1,11 +1,40 @@
-# cpp
+# C++
+- [C++](#c)
+	- [Scope Resolution operator](#scope-resolution-operator)
+	- [Class](#class)
+	- [Functions](#functions)
+		- [Inline vs Regular Functions in C++](#inline-vs-regular-functions-in-c)
+		- [Inline Functions](#inline-functions)
+		- [Regular Functions](#regular-functions)
+		- [Difference between cin and getline](#difference-between-cin-and-getline)
+		- [Clearing cin](#clearing-cin)
+		- [Insertion operator](#insertion-operator)
+		- [Const Member Function](#const-member-function)
+		- [Defining Functions outside of Class](#defining-functions-outside-of-class)
+	- [Object](#object)
+	- [Namespaces in C++](#namespaces-in-c)
+		- [What are Namespaces?](#what-are-namespaces)
+		- [Why Use Namespaces?](#why-use-namespaces)
+		- [How to Use Namespaces?](#how-to-use-namespaces)
+		- [Standard Library and Namespaces](#standard-library-and-namespaces)
+		- [Example](#example)
+	- [Constructor and Destructor in C++](#constructor-and-destructor-in-c)
+		- [Constructor](#constructor)
+		- [Destructor](#destructor)
+	- [References in C++](#references-in-c)
+		- [References vs Pointers in C++](#references-vs-pointers-in-c)
+		- [Dangling References](#dangling-references)
+	- [Assignment Operator in C++](#assignment-operator-in-c)
+	- [Orthodox canonical form](#orthodox-canonical-form)
+	- [Inheritance in C++](#inheritance-in-c)
 
-42 school cpp projects
+
+
+42 school C++ projects
 
 ## Scope Resolution operator
 
 scope resolution:: operator
-
 
 ## Class
 
@@ -260,3 +289,15 @@ In C++98 and C++03 the OCCF had four different methods that the C++ compiler is 
 - **Copy Constructor**
 - **Destructor**
 - **Copy Assignment Operator**
+
+## Inheritance in C++
+
+In C++, we have three types of inheritance: `public`, `protected`, and `private`. Each type affects the access levels of the base class members in the derived class.
+
+- **Public Inheritance**: Public members of the base class become public in the derived class, and protected members of the base class remain protected in the derived class.
+
+- **Protected Inheritance**: Both public and protected members of the base class become protected in the derived class.
+
+- **Private Inheritance**: Both public and protected members of the base class become private in the derived class.
+
+> **Note**: Private members of the base class are always inaccessible to the derived class, regardless of the type of inheritance. But they can be accessed indirectly via getter and setter functions.
