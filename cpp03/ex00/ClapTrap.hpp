@@ -3,22 +3,30 @@
 
 #include <string>
 using std::string;
+
 // using std::cout;
 
 class ClapTrap {
 private:
     string m_name;
-    int m_hit_points;
-    int m_energy_points;
-    int m_attack_dmg;
+    unsigned int m_hit_points;
+    unsigned int m_energy_points;
+    unsigned int m_attack_dmg;
+
 
 public:
+    static const unsigned int MAX_HP = 100;
+    static const unsigned int MAX_EP = 100;
+    static const unsigned int MAX_AD = 100;
+
     // Default constructor
     ClapTrap();
     
+    // Parameterized constructor name
     ClapTrap(const string& name);
 
-    ClapTrap(const string& name, uint hp, uint ep, uint ad);
+    // Parameterized constructor
+    ClapTrap(const string& name, unsigned int hp, unsigned int ep, unsigned int ad);
 
     // Copy constructor
     ClapTrap(const ClapTrap& other);
@@ -32,6 +40,7 @@ public:
     void attack(const string& target);
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
+    void printValues();
 
 };
 
