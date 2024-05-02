@@ -1,17 +1,19 @@
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
-#include <iostream>
 #include "ClapTrap.hpp"
 
-class ScavTrap : public ClapTrap {
+class ScavTrap : private ClapTrap {
     private:
-        // string m_name_scav;
+        bool m_guard_mode;
 
     public:
         ScavTrap();
         ScavTrap(const string name);
         ~ScavTrap();
+
+    void attack(const string& target);
+    void guardGate();
 };
 
 #endif

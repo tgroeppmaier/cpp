@@ -9,16 +9,18 @@ int main(){
 
     // ClapTrap arr[2] = {ClapTrap("first"), ClapTrap("second")};
     // ClapTrap clone = arr[0];
-    // ClapTrap boss("Boss", 100, 100, 10);
-    // boss.attack("Player");
+    ClapTrap boss("Boss", 100, 100, 10);
+    boss.attack("Player");
     // boss.takeDamage(100);
     // boss.beRepaired(20);
     // boss.printValues();
     // no_ep.attack("target");
     // no_hp.attack("target");
 
-    ScavTrap first("Test");
-    first.printValues();
+    ScavTrap first("Scavy");
+    // first.printValues();
     first.attack("target");
+    first.guardGate();
+    first.guardGate();
 }
 
