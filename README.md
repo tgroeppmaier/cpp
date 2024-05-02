@@ -27,6 +27,8 @@
 	- [Assignment Operator in C++](#assignment-operator-in-c)
 	- [Orthodox canonical form](#orthodox-canonical-form)
 	- [Inheritance in C++](#inheritance-in-c)
+		- [Virtual Functions in C++](#virtual-functions-in-c)
+		- [Polymorphism in C++](#polymorphism-in-c)
 
 
 
@@ -301,3 +303,54 @@ In C++, we have three types of inheritance: `public`, `protected`, and `private`
 - **Private Inheritance**: Both public and protected members of the base class become private in the derived class.
 
 > **Note**: Private members of the base class are always inaccessible to the derived class, regardless of the type of inheritance. But they can be accessed indirectly via getter and setter functions.
+
+
+### Virtual Functions in C++
+
+Virtual functions are a key part of the polymorphism feature in C++. They are member functions that are declared in the base class and can be overridden in the derived class.
+
+- **Declaration**: Virtual functions are declared in the base class using the `virtual` keyword.
+
+- **Overriding**: In the derived class, the function signature must be exactly the same as the base class function. The `override` keyword can be used to explicitly specify that a function is intended to override a virtual function in the base class.
+
+- **Dynamic Binding**: When a virtual function is called on an object, the version of the function that gets executed is determined by the type of the object, not by the type of the pointer or reference. This is known as dynamic binding or late binding.
+
+- **Pure Virtual Functions**: A pure virtual function is a virtual function that the base class declares but does not define. This makes the base class abstract, meaning it cannot be instantiated. Derived classes must provide a definition for all pure virtual functions.
+
+Example:
+```cpp
+class Base {
+public:
+	virtual void foo() { cout << "Base::foo()"; }
+};
+
+class Derived : public Base {
+public:
+	void foo() override { cout << "Derived::foo()"; }
+};
+```
+
+### Polymorphism in C++
+
+Polymorphism is a fundamental concept in object-oriented programming. It allows objects of different types to be treated as objects of a common type, enabling more flexible and reusable code.
+
+- **Subtype Polymorphism**: This is the most common form of polymorphism in C++. It's achieved through inheritance and virtual functions. A base class pointer or reference can be used to refer to an object of any class that derives from that base class. The actual function that gets called is determined at runtime, based on the actual type of the object.
+
+- **Parametric Polymorphism**: This is achieved through templates in C++. A function or class can be written to work with different types, and the actual type is specified when the function is called or the class is instantiated.
+
+- **Coercion Polymorphism**: This is where a type can be automatically changed to another type if needed. For example, an `int` can be automatically changed to a `double` in a mathematical expression.
+
+Example:
+```cpp
+class Base {
+public:
+	virtual void foo() { cout << "Base::foo()"; }
+};
+
+class Derived : public Base {
+public:
+	void foo() override { cout << "Derived::foo()"; }
+};
+
+Base* obj = new Derived();
+obj->foo();  // Prints "Derived::foo()"
