@@ -3,17 +3,19 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : private ClapTrap {
-    private:
+class ScavTrap : public ClapTrap {
+    protected:
         bool m_guard_mode;
 
     public:
         ScavTrap();
-        ScavTrap(const string name);
+        ScavTrap(const string& name);
+        ScavTrap(const ScavTrap& other);
         ~ScavTrap();
 
-    void attack(const string& target);
-    void guardGate();
+        ScavTrap& operator=(const ScavTrap& other);
+        void attack(const string& target);
+        void guardGate();
 };
 
 #endif

@@ -11,13 +11,28 @@ ScavTrap::ScavTrap()
     cout << "Default ScavTrap constructor called on " << getName() << '\n';
 }
 
-ScavTrap::ScavTrap(const string name)
+ScavTrap::ScavTrap(const string& name)
     : ClapTrap(name, 100, 50, 20), m_guard_mode(false){
     cout << "Parameterized ScavTrap constructor called on " << getName() << '\n';
 }
 
+ScavTrap::ScavTrap(const ScavTrap& other)
+    : ClapTrap(other.m_name, other.m_hit_points, other.m_energy_points, other.m_attack_dmg){
+    cout << "ScavTrap copy constructor called on " << getName() << '\n';
+    }
+
 ScavTrap::~ScavTrap(){
     cout << "ScavTrap destructor called on "<< this->m_name << '\n';
+}
+
+ScavTrap& ScavTrap::operator=(const ScavTrap& other){
+    if(this != &other){
+        m_name = other.m_name;
+        m_hit_points = other.m_hit_points;
+        m_energy_points = other.m_energy_points;
+        m_attack_dmg = other.m_attack_dmg;
+    }
+    return *this;
 }
 
 void ScavTrap::attack(const string& target){

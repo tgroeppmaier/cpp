@@ -3,16 +3,18 @@
 
 #include "ClapTrap.hpp"
 
-class FragTrap : private ClapTrap {
-    private:
+class FragTrap : public ClapTrap {
+    protected:
 
     public:
         FragTrap();
-        FragTrap(const string name);
+        FragTrap(const string& name);
+        FragTrap(const FragTrap& other);
         ~FragTrap();
 
-    void attack(const string& target);
-    void highFivesGuys();
+        FragTrap& operator=(const FragTrap& other);
+        void attack(const string& target);
+        void highFivesGuys();
 };
 
 #endif
