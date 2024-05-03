@@ -12,9 +12,7 @@ class FragTrap : public ClapTrap {
         FragTrap(const FragTrap& other);
         ~FragTrap();
 
-        // Assignment operator
         FragTrap& operator=(const FragTrap& other);
-
         void attack(const string& target);
         void highFivesGuys();
 };

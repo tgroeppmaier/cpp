@@ -309,7 +309,7 @@ In C++, we have three types of inheritance: `public`, `protected`, and `private`
 
 Virtual functions are a key part of the polymorphism feature in C++. They are member functions that are declared in the base class and can be overridden in the derived class.
 
-- **Declaration**: Virtual functions are declared in the base class using the `virtual` keyword.
+- **Declaration**: Virtual functions are declared in the base class using the `virtual` keyword in the header file.
 
 - **Overriding**: In the derived class, the function signature must be exactly the same as the base class function. The `override` keyword can be used to explicitly specify that a function is intended to override a virtual function in the base class.
 

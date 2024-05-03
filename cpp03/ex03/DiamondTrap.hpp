@@ -14,8 +14,8 @@ class DiamondTrap : public FragTrap, public ScavTrap{
 
     public:
         DiamondTrap();
-        DiamondTrap(const string& name);
-        ~DiamondTrap();
+        // DiamondTrap(const string& name);
+        // ~DiamondTrap();
 };
 
 

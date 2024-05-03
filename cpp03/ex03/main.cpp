@@ -25,8 +25,10 @@ int main(){
     // first.guardGate();
     // first.guardGate();
 
-    FragTrap FragT("Fragy");
-    FragT.attack("target");
-    FragT.highFivesGuys();
+    // FragTrap FragT("Fragy");
+    // FragT.attack("target");
+    // FragT.highFivesGuys();
+    DiamondTrap trap;
+    // trap.attack;
 }
 
