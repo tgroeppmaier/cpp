@@ -29,11 +29,11 @@ public:
     // Copy constructor
     ClapTrap(const ClapTrap& other);
 
-    // Assignment operator
-    ClapTrap& operator=(const ClapTrap& other);
-
     // Destructor
     ~ClapTrap();
+
+    // Assignment operator
+    ClapTrap& operator=(const ClapTrap& other);
 
     virtual void attack(const string& target);
     void takeDamage(unsigned int amount);
