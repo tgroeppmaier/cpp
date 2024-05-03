@@ -29,6 +29,6 @@ int main(){
     // FragT.attack("target");
     // FragT.highFivesGuys();
     DiamondTrap trap;
-    // trap.attack;
+    trap.attack("target");
 }
 

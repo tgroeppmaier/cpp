@@ -9,9 +9,15 @@
 using std::string;
 using std::cout;
 
-DiamondTrap::DiamondTrap() : FragTrap(), ScavTrap(), m_name("Default_Diamond") {
+DiamondTrap::DiamondTrap() 
+	: ClapTrap(), 
+	  FragTrap(), 
+	  ScavTrap(), 
+	  m_name("Default_Diamond") 
+{
 	cout << "DiamondTrap default constructor called\n";
-	// m_hit_points = FragTrap::getHitPoints();
-	// m_energy_points = ScavTrap::getEnergyPoints();
-	// m_attack_dmg = FragTrap::getAttackDamage();
+	m_hit_points = FragTrap::getHP();
+	m_energy_points = ScavTrap::getEP();
+	m_attack_dmg = FragTrap::getAD();
 }
+
