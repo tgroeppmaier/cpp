@@ -44,7 +44,7 @@ ClapTrap::ClapTrap(const ClapTrap& other)
 
 // Destructor
 ClapTrap::~ClapTrap() {
-    cout << "ClapTrap destructor called on "<< this->m_name << '\n';
+    cout << "ClapTrap destructor called on "<< m_name << '\n';
 
 }
 

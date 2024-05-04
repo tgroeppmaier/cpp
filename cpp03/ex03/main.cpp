@@ -28,7 +28,10 @@ int main(){
     // FragTrap FragT("Fragy");
     // FragT.attack("target");
     // FragT.highFivesGuys();
-    DiamondTrap trap;
-    trap.attack("target");
+    DiamondTrap d1("first");
+    // DiamondTrap d2 = d1;
+    d1.attack("target");
+    // d2.printValues();
+    d1.whoAmI();
 }
 

@@ -13,16 +13,16 @@ ScavTrap::ScavTrap()
 
 ScavTrap::ScavTrap(const string& name)
     : ClapTrap(name, 100, 50, 20), m_guard_mode(false){
-    cout << "Parameterized ScavTrap constructor called on " << getName() << '\n';
+    cout << "Parameterized ScavTrap constructor called on " << name << '\n';
 }
 
 ScavTrap::ScavTrap(const ScavTrap& other)
     : ClapTrap(other.m_name, other.m_hit_points, other.m_energy_points, other.m_attack_dmg){
-    cout << "ScavTrap copy constructor called on " << getName() << '\n';
+    cout << "ScavTrap copy constructor called on " << m_name << '\n';
     }
 
 ScavTrap::~ScavTrap(){
-    cout << "ScavTrap destructor called on "<< this->m_name << '\n';
+    cout << "ScavTrap destructor called on "<< m_name << '\n';
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& other){

@@ -8,21 +8,21 @@ using std::cout;
 
 FragTrap::FragTrap()
     : ClapTrap("Default_Frag", 100, 100, 30){
-    cout << "Default FragTrap constructor called on " << getName() << '\n';
+    cout << "Default FragTrap constructor called\n";
 }
 
 FragTrap::FragTrap(const string& name)
     : ClapTrap(name, 100, 100, 30){
-    cout << "Parameterized FragTrap constructor called on " << getName() << '\n';
+    cout << "Parameterized FragTrap constructor called on " << name << '\n';
 }
 
 FragTrap::FragTrap(const FragTrap& other)
     : ClapTrap(other.m_name, other.m_hit_points, other.m_energy_points, other.m_attack_dmg){
-    cout << "FragTrap copy constructor called on " << getName() << '\n';
+    cout << "FragTrap copy constructor called on " << m_name << '\n';
     }
 
 FragTrap::~FragTrap(){
-    cout << "FragTrap destructor called on "<< this->m_name << '\n';
+    cout << "FragTrap destructor called on "<< m_name << '\n';
 }
 
 FragTrap& FragTrap::operator=(const FragTrap& other){
