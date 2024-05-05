@@ -27,10 +27,8 @@ ScavTrap::~ScavTrap(){
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& other){
     if(this != &other){
-        m_name = other.m_name;
-        m_hit_points = other.m_hit_points;
-        m_energy_points = other.m_energy_points;
-        m_attack_dmg = other.m_attack_dmg;
+        ClapTrap::operator=(other);
+        m_guard_mode = other.m_guard_mode;
     }
     return *this;
 }

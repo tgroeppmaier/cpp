@@ -10,15 +10,15 @@ using std::string;
 using std::cout;
 
 DiamondTrap::DiamondTrap() 
-	: ClapTrap(), 
+	: ClapTrap("Default_clap_name"),
 	  FragTrap(), 
 	  ScavTrap(), 
 	  m_name("Default_Diamond") 
 {
 	cout << "DiamondTrap default constructor called\n";
-	m_hit_points = FragTrap::getHP();
-	m_energy_points = ScavTrap::getEP();
-	m_attack_dmg = FragTrap::getAD();
+	m_hit_points = 100;
+	m_energy_points = 50;
+	m_attack_dmg = 30;
 }
 
 DiamondTrap::DiamondTrap(const string& name)
@@ -28,9 +28,9 @@ DiamondTrap::DiamondTrap(const string& name)
 	  m_name(name)
 {
 	cout << "DiamondTrap constructor called\n";
-	m_hit_points = FragTrap::getHP();
-	m_energy_points = ScavTrap::getEP();
-	m_attack_dmg = FragTrap::getAD();
+	m_hit_points = 100;
+	m_energy_points = 50;
+	m_attack_dmg = 30;
 }
 
 DiamondTrap::~DiamondTrap(){
@@ -44,9 +44,20 @@ DiamondTrap::DiamondTrap(const DiamondTrap& other)
 	  m_name(other.m_name) 
 {
 	cout << "DiamondTrap copy constructor called\n";
-	m_hit_points = other.m_hit_points;
-	m_energy_points = other.m_energy_points;
-	m_attack_dmg = other.m_attack_dmg;
+}
+
+DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other){
+	if(this != &other){
+		ClapTrap::operator=(other);
+		FragTrap::operator=(other);
+		ScavTrap::operator=(other);
+		m_name = other.m_name;
+	}
+	return *this;
+}
+
+void DiamondTrap::attack(const std::string& target) {
+	ScavTrap::attack(target);
 }
 
 void DiamondTrap::whoAmI() {

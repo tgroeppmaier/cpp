@@ -27,14 +27,10 @@ FragTrap::~FragTrap(){
 
 FragTrap& FragTrap::operator=(const FragTrap& other){
     if (this != &other) {
-        m_name = other.m_name;
-        m_hit_points = other.m_hit_points;
-        m_energy_points = other.m_energy_points;
-        m_attack_dmg = other.m_attack_dmg;
+        ClapTrap::operator=(other);
     }
     return *this;
 }
-
 
 void FragTrap::attack(const string& target){
     if(m_energy_points > 0 && m_hit_points > 0)
