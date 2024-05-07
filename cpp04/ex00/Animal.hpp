@@ -12,10 +12,11 @@ class Animal{
         Animal();
         Animal(const string& type);
         Animal(const Animal& other);
-        ~Animal();
+        virtual ~Animal();
 
-        Animal operator=(const Animal& other);
-        void makeSound();
+        Animal& operator=(const Animal& other);
+        virtual void makeSound() const;
+        const string& getType() const;
 
 };
 

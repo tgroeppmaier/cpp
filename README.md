@@ -28,6 +28,7 @@
 	- [Orthodox canonical form](#orthodox-canonical-form)
 	- [Inheritance in C++](#inheritance-in-c)
 		- [Virtual Functions in C++](#virtual-functions-in-c)
+			- [Virtual Destructor](#virtual-destructor)
 		- [Polymorphism in C++](#polymorphism-in-c)
 
 
@@ -329,6 +330,10 @@ public:
 	void foo() override { cout << "Derived::foo()"; }
 };
 ```
+
+#### Virtual Destructor
+
+In C++, when a class is used as a base class for other classes and it's intended to be polymorphic, it should declare a virtual destructor. This ensures that when an object of a derived class is deleted through a pointer to the base class, the destructor of the derived class is called correctly.
 
 ### Polymorphism in C++
 
