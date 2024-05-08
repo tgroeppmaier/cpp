@@ -15,6 +15,9 @@ void subject(){
     i->makeSound(); //will output the cat sound!
     j->makeSound();
     meta->makeSound();
+    delete j;
+    delete i;
+    delete meta;
 }
 
 void wrong(){
@@ -25,6 +28,8 @@ void wrong(){
     i->makeSound(); //will output nothing
     wcat.makeSound();
     meta->makeSound();
+    delete i;
+    delete meta;
 }
 
 void extra(){
@@ -34,9 +39,9 @@ void extra(){
 }
 
 int main(){
-    // subject();
+    subject();
     wrong();
-    // extra();
+    extra();
 
 
     return 0;
