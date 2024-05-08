@@ -1,0 +1,22 @@
+#ifndef DOG_HPP
+#define DOG_HPP
+
+#include "Animal.hpp"
+#include <string>
+
+class Dog : public Animal{
+    protected:
+        std::string m_sound;
+
+    public:
+        Dog();
+        Dog(const Dog& other);
+        ~Dog();
+
+        Dog& operator=(const Dog& other);
+        void makeSound() const;
+
+};
+
+
+#endif
