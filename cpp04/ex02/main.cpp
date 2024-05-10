@@ -7,10 +7,7 @@
 
 
 void subject(){
-    const Animal* j = new Dog();
-    const Animal* i = new Cat();
-    delete j;//should not create a leak
-    delete i;
+    Animal test;
 }
 
 void extra(){
@@ -24,20 +21,9 @@ void extra(){
 }
 
 int main(){
-    // subject();
-    // extra();
-    const int size = 8;
-    Animal* array[size];
-    
-    for(int i = 0; i < size/2; i++){
-        array[i] = new Dog();
-    }
-    for(int i = size/2; i < size; i++){
-        array[i] = new Cat();
-    }
-    for(int i = 0; i < size; i++){
-        delete array[i];
-    }
+    subject();
+    extra();
+
     return 0;
 }
 
