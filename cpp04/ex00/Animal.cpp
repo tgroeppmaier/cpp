@@ -17,11 +17,11 @@ Animal::Animal(const string& type)
 
 Animal::Animal(const Animal& other)
     : m_type(other.m_type){
-    cout << m_type << " Copy constructor called\n";
+    cout << "Animal copy constructor called\n";
 }
 
 Animal::~Animal(){
-    cout << m_type << " Deconstructor called\n";
+    cout << "Animal deconstructor called\n";
 }
 
 Animal& Animal::operator=(const Animal& other){

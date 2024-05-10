@@ -7,38 +7,37 @@
 
 
 void subject(){
-    const Animal* meta = new Animal();
     const Animal* j = new Dog();
     const Animal* i = new Cat();
-    std::cout << j->getType() << " " << std::endl;
-    std::cout << i->getType() << " " << std::endl;
-    i->makeSound(); //will output the cat sound!
-    j->makeSound();
-    meta->makeSound();
-}
-
-void wrong(){
-    const WrongAnimal* meta = new WrongAnimal();
-    const WrongAnimal* i = new WrongCat();
-    WrongCat wcat;
-    // std::cout << i->getType() << " " << std::endl;
-    i->makeSound(); //will output nothing
-    wcat.makeSound();
-    meta->makeSound();
+    delete j;//should not create a leak
+    delete i;
 }
 
 void extra(){
-    Animal* Ani = new Dog();
-    Ani->makeSound();
-    delete Ani;
+    Dog originalDog;
+    originalDog.setIdea(0, "sniffing");
+    Dog copyDog = originalDog;
+    originalDog.setIdea(0, "pooping");
+    originalDog.makeSound();
+    copyDog.makeSound();
+    std::cout << copyDog.getIdea(0) << '\n';
 }
 
 int main(){
     // subject();
-    wrong();
     // extra();
-
-
+    const int size = 8;
+    Animal* array[size];
+    
+    for(int i = 0; i < size/2; i++){
+        array[i] = new Dog();
+    }
+    for(int i = size/2; i < size; i++){
+        array[i] = new Cat();
+    }
+    for(int i = 0; i < size; i++){
+        delete array[i];
+    }
     return 0;
 }
 
