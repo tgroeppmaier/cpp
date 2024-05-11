@@ -17,7 +17,7 @@ void extra(){
     Dog originalDog;
     originalDog.setIdea(0, "sniffing");
     Dog copyDog = originalDog;
-    originalDog.setIdea(0, "pooping");
+    originalDog.setIdea(0, "barking");
     originalDog.makeSound();
     copyDog.makeSound();
     std::cout << copyDog.getIdea(0) << '\n';
