@@ -5,7 +5,6 @@
 
 class WrongCat : public WrongAnimal {
     protected:
-        std::string m_sound;
         
     public:
         WrongCat();

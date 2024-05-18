@@ -5,8 +5,7 @@
 using std::cout;
 
 WrongCat::WrongCat()
-    : WrongAnimal("WrongCat"),
-      m_sound("mooooo") {
+    : WrongAnimal("WrongCat") {
     cout << m_type << " default constructor called\n";
 }
 

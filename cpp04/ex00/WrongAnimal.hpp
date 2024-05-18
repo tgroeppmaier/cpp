@@ -6,6 +6,7 @@
 class WrongAnimal {
 protected:
     std::string m_type;
+    std::string m_sound;
 
 public:
     WrongAnimal();
