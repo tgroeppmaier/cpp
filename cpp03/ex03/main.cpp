@@ -38,8 +38,8 @@ int main(){
     // DiamondTrap d1;
     // DiamondTrap d2 = d1;
     // DiamondTrap* p1 = &d1;
-    // d1.attack("target");
-    // d1.whoAmI();
+    d1.attack("target");
+    d1.whoAmI();
     // p1->printValues();
     // p1->whoAmI();
     

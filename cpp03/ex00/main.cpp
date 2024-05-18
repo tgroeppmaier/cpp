@@ -10,7 +10,7 @@ int main(){
     ClapTrap clone = arr[0];
     ClapTrap boss("Boss", 100, 100, 10);
     boss.attack("Player");
-    boss.takeDamage(100);
+    boss.takeDamage(90);
     boss.beRepaired(20);
     boss.printValues();
     no_ep.attack("target");
