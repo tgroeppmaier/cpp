@@ -25,9 +25,9 @@ void wrong(){
     const WrongAnimal* i = new WrongCat();
     WrongCat wcat;
     // std::cout << i->getType() << " " << std::endl;
-    i->makeSound(); //will output nothing
-    wcat.makeSound();
-    meta->makeSound();
+    i->makeSound(); //will output sound of Animal
+    wcat.makeSound(); //will output sound of Animal
+    meta->makeSound(); //will output sound of Animal
     delete i;
     delete meta;
 }
@@ -40,7 +40,7 @@ void extra(){
 
 int main(){
     subject();
-    wrong();
+    // wrong();
     extra();
 
 

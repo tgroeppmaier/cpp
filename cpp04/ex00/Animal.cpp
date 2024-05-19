@@ -12,7 +12,7 @@ Animal::Animal()
 
 Animal::Animal(const string& type)
     : m_type(type){
-    cout << "Animal Constructor called " << m_type << '\n';
+    cout << "Animal Constructor called for " << m_type << '\n';
 }
 
 Animal::Animal(const Animal& other)
