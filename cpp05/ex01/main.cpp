@@ -1,4 +1,6 @@
 #include "Bureaucrat.hpp"
+#include "Exceptions.hpp"
+#include "Form.hpp"
 #include <exception>
 #include <iostream>
 
@@ -36,19 +38,24 @@ int main(){
     //     std::cerr << "GradeTooLowException: " << e.what() << '\n';
     // }
 
-    try { cog1.incGrade(-10);
-    }
-    catch(Bureaucrat::NegativeNumberException& e) {
-        std::cerr << "NegativeNumberException: " << e.what() << '\n';
-    }
-    catch (Bureaucrat::GradeTooHighException& e) {
-        std::cerr << "GradeTooHighException: " << e.what() << '\n';
-    }
-    catch (Bureaucrat::GradeTooLowException& e) {
-        std::cerr << "GradeTooLowException: " << e.what() << '\n';
-    }
+    // try { cog1.incGrade(-10);
+    // }
+    // catch(const NegativeNumberException& e) {
+    //     std::cerr << "NegativeNumberException: " << e.what() << '\n';
+    // }
+    // catch (const GradeTooHighException& e) {
+    //     std::cerr << "GradeTooHighException: " << e.what() << '\n';
+    // }
+    // catch (const GradeTooLowException& e) {
+    //     std::cerr << "GradeTooLowException: " << e.what() << '\n';
+    // }
 
-    cout << cog1 << '\n';
+    // cout << cog1 << '\n';
+
+    Form form_a("28b", 1, 1);
+    // form_a.beSigned(cog1);
+    cog1.signForm(form_a);
+
 
     return 0;
 }

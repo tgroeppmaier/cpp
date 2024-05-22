@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Exceptions.hpp"
 #include <iostream>
 
 using std::cout;
@@ -7,7 +8,7 @@ using std::cout;
 Bureaucrat::Bureaucrat(const string& name)
     : m_name(name) {
     cout << "Bureaucrat default constructor called for " << m_name << '\n';
-};
+}
 
 Bureaucrat::Bureaucrat(const string& name, int grade)
     : m_name (name),
@@ -19,17 +20,17 @@ Bureaucrat::Bureaucrat(const string& name, int grade)
         throw GradeTooLowException();
     }
     cout << "Bureaucrat constructor called for " << m_name << " with grade " << m_grade << '\n';
-};
+}
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other)
     : m_name (other.m_name),
       m_grade (other.m_grade) {
     cout << "Bureaucrat copy constructor called for " << m_name << " with grade " << m_grade << '\n';
-};
+}
 
 Bureaucrat::~Bureaucrat() {
     cout << "Bureaucrat default deconstructor called for " << m_name << '\n';
-};
+}
 
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other){
     if(this != &other){
@@ -67,17 +68,16 @@ void Bureaucrat::decGrade(int num){
     m_grade += num;
 }
 
-const char* Bureaucrat::GradeTooHighException::what() const throw() {
-    return "Grade too high";
+void Bureaucrat::signForm(Form& form){
+    if(m_grade <= form.getGradeSign()){
+        form.beSigned(*this);
+        cout << m_name << " signed " << form.getName() << '\n';
+    }
+    else
+        cout << m_name << " couldn't sign " << form.getName() << " because Grade too low\n";
+
 }
 
-const char* Bureaucrat::GradeTooLowException::what() const throw() {
-    return "Grade too low";
-}
-
-const char* Bureaucrat::NegativeNumberException::what() const throw() {
-    return "Negative number passed";
-}
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj) {
     os << obj.getName() << ", bureaucrat grade " << obj.getGrade();
