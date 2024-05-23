@@ -4,6 +4,7 @@
 #include "Form.hpp"
 #include <string>
 #include <ostream>
+#include <exception>
 
 class Form;
 
@@ -15,10 +16,26 @@ class Bureaucrat {
         int m_grade;
 
     public:
-        class GradeTooHighException;
-        class GradeTooLowException;
-        class NegativeNumberException;
-        class FormAlreadySigned;
+        class GradeTooHighException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class GradeTooLowException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class FormAlreadySigned : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class NegativeNumberException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
 
         Bureaucrat(const string& name);
         Bureaucrat(const string& name, int grade);

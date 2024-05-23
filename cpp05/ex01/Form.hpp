@@ -15,15 +15,31 @@ class Form {
         const int m_grade_exec;
         bool m_signed;
 
-    public:
-        class GradeTooHighException;
-        class GradeTooLowException;
-        class NegativeNumberException;
-        class FormAlreadySigned;
+    public:    
+        class GradeTooHighException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class GradeTooLowException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class FormAlreadySigned : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+
+        class NegativeNumberException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
         
         Form(const string name, const int sign, const int exec);
         Form(const Form& other);
         ~Form();
+        Form& operator=(const Form& other);
 
         const string& getName() const;
         bool isSigned() const;

@@ -3,33 +3,21 @@
 
 using std::cout;
 
-class Form::GradeTooHighException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Grade too high";
-    }
-};
+const char* Form::GradeTooHighException::what() const throw() {
+    return "Grade too high";
+}
 
-class Form::GradeTooLowException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Grade too low";
-    }
-};
+const char* Form::GradeTooLowException::what() const throw() {
+    return "Grade too low";
+}
 
-class Form::NegativeNumberException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Negative number passed";
-    }
-};
+const char* Form::NegativeNumberException::what() const throw() {
+    return "Negative number passed";
+}
 
-class Form::FormAlreadySigned : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Form is already signed";
-    }
-};
+const char* Form::FormAlreadySigned::what() const throw() {
+    return "Form is already signed";
+}
 
 Form::Form(const string name, const int sign, const int exec) 
     : m_name (name), m_grade_sign (sign), m_grade_exec (exec), m_signed (false) {
@@ -49,6 +37,13 @@ Form::Form(const Form& other)
 
 Form::~Form(){
     cout << "Form default destructor called\n";       
+}
+
+Form& Form::operator=(const Form& other){
+    if (this != &other) {
+        m_signed = other.m_signed;
+    }
+    return *this;
 }
 
 const string& Form::getName() const {

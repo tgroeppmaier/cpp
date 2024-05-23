@@ -3,33 +3,50 @@
 
 using std::cout;
 
-class Bureaucrat::GradeTooHighException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Grade too high";
-    }
-};
+// class Bureaucrat::GradeTooHighException : public std::exception {
+// public:
+//     const char* what() const throw() {
+//         return "Grade too high";
+//     }
+// };
 
-class Bureaucrat::GradeTooLowException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Grade too low";
-    }
-};
+// class Bureaucrat::GradeTooLowException : public std::exception {
+// public:
+//     const char* what() const throw() {
+//         return "Grade too low";
+//     }
+// };
 
-class Bureaucrat::NegativeNumberException : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Negative number passed";
-    }
-};
+// class Bureaucrat::NegativeNumberException : public std::exception {
+// public:
+//     const char* what() const throw() {
+//         return "Negative number passed";
+//     }
+// };
 
-class Bureaucrat::FormAlreadySigned : public std::exception {
-public:
-    const char* what() const throw() {
-        return "Form is already signed";
-    }
-};
+// class Bureaucrat::FormAlreadySigned : public std::exception {
+// public:
+//     const char* what() const throw() {
+//         return "Form is already signed";
+//     }
+// };
+
+
+const char* Bureaucrat::GradeTooHighException::what() const throw() {
+    return "Grade too high";
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw() {
+    return "Grade too low";
+}
+
+const char* Bureaucrat::FormAlreadySigned::what() const throw() {
+    return "Form is already signed";
+}
+
+const char* Bureaucrat::NegativeNumberException::what() const throw() {
+    return "Negative number passed";
+}
 
 Bureaucrat::Bureaucrat(const string& name)
     : m_name(name) {
@@ -56,6 +73,13 @@ Bureaucrat::Bureaucrat(const Bureaucrat& other)
 
 Bureaucrat::~Bureaucrat() {
     cout << "Bureaucrat default destructor called for " << m_name << '\n';
+}
+
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other){
+    if (this != &other){
+        m_grade = other.m_grade;
+    }
+    return *this;
 }
 
 const string& Bureaucrat::getName() const{
@@ -87,17 +111,8 @@ void Bureaucrat::decGrade(int num){
 }
 
 void Bureaucrat::signForm(Form& form){
-    try {
-        form.beSigned(*this);
-        cout << m_name << " signed " << form.getName() << '\n';
-    }
-    catch (const GradeTooLowException& e) {
-        cout << m_name << " couldn't sign " << form.getName() << " because " << e.what() << "\n";
-    }
-
-    catch (const FormAlreadySigned& e) {
-        cout << m_name << " couldn't sign " << form.getName() << " because " << e.what() << "\n";
-    }
+    form.beSigned(*this);
+    cout << m_name << " signed " << form.getName() << '\n';
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj) {

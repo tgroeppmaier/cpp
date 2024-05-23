@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -Wshadow -g -std=c++98
 NAME = main 
 SRC = main.cpp Bureaucrat.cpp Form.cpp
 OBJ = $(SRC:.cpp=.o)
-HEADER = Bureaucrat.hpp Exceptions.hpp Form.hpp
+HEADER = Bureaucrat.hpp Form.hpp
 
 all: $(NAME)
 
