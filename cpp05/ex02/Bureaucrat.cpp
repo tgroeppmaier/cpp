@@ -24,10 +24,10 @@ using std::cout;
 //     }
 // };
 
-// class Bureaucrat::FormAlreadySigned : public std::exception {
+// class Bureaucrat::AFormAlreadySigned : public std::exception {
 // public:
 //     const char* what() const throw() {
-//         return "Form is already signed";
+//         return "AForm is already signed";
 //     }
 // };
 
@@ -40,8 +40,8 @@ const char* Bureaucrat::GradeTooLowException::what() const throw() {
     return "Grade too low";
 }
 
-const char* Bureaucrat::FormAlreadySigned::what() const throw() {
-    return "Form is already signed";
+const char* Bureaucrat::AFormAlreadySigned::what() const throw() {
+    return "AForm is already signed";
 }
 
 const char* Bureaucrat::NegativeNumberException::what() const throw() {
@@ -110,7 +110,7 @@ void Bureaucrat::decGrade(int num){
     m_grade += num;
 }
 
-void Bureaucrat::signForm(Form& form){
+void Bureaucrat::signAForm(AForm& form){
     form.beSigned(*this);
     cout << m_name << " signed " << form.getName() << '\n';
 }

@@ -24,10 +24,10 @@ class NegativeNumberException : public std::exception {
     }
 };      
     
-class FormAlreadySigned : public std::exception {
+class AFormAlreadySigned : public std::exception {
     public:
     const char* what() const throw(){
-        return "Form is already signed";
+        return "AForm is already signed";
     }
 };      
 

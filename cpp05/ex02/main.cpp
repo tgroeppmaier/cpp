@@ -1,6 +1,6 @@
 #include "Bureaucrat.hpp"
 #include "Exceptions.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 #include <exception>
 #include <iostream>
 
@@ -18,14 +18,14 @@ void IncDecWithExceptionHandling(void (Bureaucrat::*func)(int), Bureaucrat& bure
     }
 }
 
-void signFormWithExceptionHandling(void (Bureaucrat::*func)(Form&), Bureaucrat& bureaucrat, Form& form){
+void signAFormWithExceptionHandling(void (Bureaucrat::*func)(AForm&), Bureaucrat& bureaucrat, AForm& form){
     try {
         (bureaucrat.*func)(form);
     }
-    catch (const Form::FormAlreadySigned& e) {
+    catch (const AForm::AFormAlreadySigned& e) {
         std::cerr << e.what() << '\n';
     }
-    catch (const Form::GradeTooLowException& e) {
+    catch (const AForm::GradeTooLowException& e) {
         std::cerr << e.what() << '\n';
     }
 }
@@ -33,12 +33,12 @@ void signFormWithExceptionHandling(void (Bureaucrat::*func)(Form&), Bureaucrat& 
 int main(){
     Bureaucrat cog1("Karl", 10);
     
-    Form form_a("28b", 1, 1);
+    // AForm form_a("28b", 1, 1);
     // form_a.beSigned(cog1);
-    // cog1.signForm(form_a);
-    signFormWithExceptionHandling(&Bureaucrat::signForm, cog1, form_a);
+    // cog1.signAForm(form_a);
+    // signAFormWithExceptionHandling(&Bureaucrat::signAForm, cog1, form_a);
 
-    IncDecWithExceptionHandling(&Bureaucrat::decGrade, cog1, 200);
+    // IncDecWithExceptionHandling(&Bureaucrat::decGrade, cog1, 200);
     // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1, 1);
     return 0;
 }

@@ -8,7 +8,7 @@ using std::string;
 
 class Bureaucrat;
 
-class Form {
+class AForm {
     private:
         const string m_name;
         const int m_grade_sign;
@@ -26,7 +26,7 @@ class Form {
             const char* what() const throw();
         };
 
-        class FormAlreadySigned : public std::exception {
+        class AFormAlreadySigned : public std::exception {
         public:
             const char* what() const throw();
         };
@@ -36,10 +36,10 @@ class Form {
             const char* what() const throw();
         };
         
-        Form(const string name, const int sign, const int exec);
-        Form(const Form& other);
-        ~Form();
-        Form& operator=(const Form& other);
+        AForm(const string name, const int sign, const int exec);
+        AForm(const AForm& other);
+        ~AForm();
+        AForm& operator=(const AForm& other);
 
         const string& getName() const;
         bool isSigned() const;
@@ -47,8 +47,10 @@ class Form {
         int getGradeExec() const;
 
         void beSigned(Bureaucrat& signer);
+
+        virtual void execute(Bureaucrat const & executor) const = 0;
 };
 
-std::ostream& operator<<(std::ostream& os, const Form& obj);
+std::ostream& operator<<(std::ostream& os, const AForm& obj);
 
 #endif

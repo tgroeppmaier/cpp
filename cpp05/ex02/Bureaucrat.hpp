@@ -1,12 +1,12 @@
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
-#include "Form.hpp"
+#include "AForm.hpp"
 #include <string>
 #include <ostream>
 #include <exception>
 
-class Form;
+class AForm;
 
 using std::string;
 
@@ -26,7 +26,7 @@ class Bureaucrat {
             const char* what() const throw();
         };
 
-        class FormAlreadySigned : public std::exception {
+        class AFormAlreadySigned : public std::exception {
         public:
             const char* what() const throw();
         };
@@ -49,7 +49,7 @@ class Bureaucrat {
         void incGrade(int num);
         void decGrade(int num);
 
-        void signForm(Form& form);
+        void signAForm(AForm& form);
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj);
