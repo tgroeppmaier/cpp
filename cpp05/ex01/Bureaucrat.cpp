@@ -1,8 +1,35 @@
 #include "Bureaucrat.hpp"
-#include "Exceptions.hpp"
 #include <iostream>
 
 using std::cout;
+
+class Bureaucrat::GradeTooHighException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Grade too high";
+    }
+};
+
+class Bureaucrat::GradeTooLowException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Grade too low";
+    }
+};
+
+class Bureaucrat::NegativeNumberException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Negative number passed";
+    }
+};
+
+class Bureaucrat::FormAlreadySigned : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Form is already signed";
+    }
+};
 
 Bureaucrat::Bureaucrat(const string& name)
     : m_name(name) {
@@ -30,14 +57,6 @@ Bureaucrat::Bureaucrat(const Bureaucrat& other)
 Bureaucrat::~Bureaucrat() {
     cout << "Bureaucrat default destructor called for " << m_name << '\n';
 }
-
-// Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other){
-//     if (this != &other){
-//         this->m_grade = other.m_grade;
-//     }
-//     return *this;
-
-// }
 
 const string& Bureaucrat::getName() const{
     return m_name;

@@ -1,7 +1,6 @@
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
-#include "Exceptions.hpp"
 #include "Form.hpp"
 #include <string>
 #include <ostream>
@@ -16,6 +15,11 @@ class Bureaucrat {
         int m_grade;
 
     public:
+        class GradeTooHighException;
+        class GradeTooLowException;
+        class NegativeNumberException;
+        class FormAlreadySigned;
+
         Bureaucrat(const string& name);
         Bureaucrat(const string& name, int grade);
         Bureaucrat(const Bureaucrat& other);

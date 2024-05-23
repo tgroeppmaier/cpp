@@ -3,6 +3,34 @@
 
 using std::cout;
 
+class Form::GradeTooHighException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Grade too high";
+    }
+};
+
+class Form::GradeTooLowException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Grade too low";
+    }
+};
+
+class Form::NegativeNumberException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Negative number passed";
+    }
+};
+
+class Form::FormAlreadySigned : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Form is already signed";
+    }
+};
+
 Form::Form(const string name, const int sign, const int exec) 
     : m_name (name), m_grade_sign (sign), m_grade_exec (exec), m_signed (false) {
         if (sign < 1 || exec < 1) {
@@ -49,6 +77,7 @@ void Form::beSigned(Bureaucrat& signer){
     }
     m_signed = true;
 }
+
 std::ostream& operator<<(std::ostream& os, const Form& obj) {
     os << "Name: " << obj.getName() 
        << ", Signed: " << (obj.isSigned() ? "Yes" : "No") 

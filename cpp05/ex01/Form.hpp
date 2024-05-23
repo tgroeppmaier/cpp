@@ -1,7 +1,6 @@
 #ifndef FORM_HPP
 #define FORM_HPP
 
-#include "Exceptions.hpp"
 #include "Bureaucrat.hpp"
 #include <string>
 
@@ -17,6 +16,11 @@ class Form {
         bool m_signed;
 
     public:
+        class GradeTooHighException;
+        class GradeTooLowException;
+        class NegativeNumberException;
+        class FormAlreadySigned;
+        
         Form(const string name, const int sign, const int exec);
         Form(const Form& other);
         ~Form();

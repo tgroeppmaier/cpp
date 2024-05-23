@@ -6,17 +6,17 @@
 
 using std::cout;
 
-void executeWithExceptionHandling(void (*func)(Bureaucrat&), Bureaucrat& bureaucrat) {
-    try {
-        func(bureaucrat);
-    } catch (const GradeTooHighException& e) {
-        std::cerr << "GradeTooHighException: " << e.what() << '\n';
-    } catch (const GradeTooLowException& e) {
-        std::cerr << "GradeTooLowException: " << e.what() << '\n';
-    } catch(const NegativeNumberException& e) {
-        std::cerr << "NegativeNumberException: " << e.what() << '\n';
-    }
-}
+// void executeWithExceptionHandling(void (Bureaucrat::*func)(int), Bureaucrat& bureaucrat, int num) {
+//     try {
+//         (bureaucrat.*func)(num);
+//     } catch (const Bureaucrat::GradeTooHighException& e) {
+//         std::cerr << "GradeTooHighException: " << e.what() << '\n';
+//     } catch (const Bureaucrat::GradeTooLowException& e) {
+//         std::cerr << "GradeTooLowException: " << e.what() << '\n';
+//     } catch(const Bureaucrat::NegativeNumberException& e) {
+//         std::cerr << "NegativeNumberException: " << e.what() << '\n';
+//     }
+// }
 
 int main(){
     Bureaucrat cog1("Karl", 10);
@@ -25,7 +25,7 @@ int main(){
     form_a.beSigned(cog1);
     cog1.signForm(form_a);
 
-    // executeWithExceptionHandling(&Bureaucrat::decGrade, cog1);
-    // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1);
+    // executeWithExceptionHandling(&Bureaucrat::decGrade, cog1, 1);
+    // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1, 1);
     return 0;
 }
