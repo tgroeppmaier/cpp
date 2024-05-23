@@ -20,17 +20,8 @@ Form::Form(const Form& other)
 }
 
 Form::~Form(){
-    cout << "Form default deconstructor called\n";       
+    cout << "Form default destructor called\n";       
 }
-
-// Form& Form::operator=(const Form& other) {
-//     if(this != &other){
-//         m_name = other.m_name;
-//         m_grade_sign = other.m_grade_sign;
-//         m_grade_exec = other.m_grade_exec;
-//     }
-//     return *this;
-// }
 
 const string& Form::getName() const {
     return m_name;
@@ -50,12 +41,14 @@ int Form::getGradeExec() const {
 
 
 void Form::beSigned(Bureaucrat& signer){
-    if(signer.getGrade() > m_grade_sign){
+    if (isSigned()) {
+        throw FormAlreadySigned();
+    }
+    if (signer.getGrade() > m_grade_sign) {
         throw GradeTooLowException();
     }
     m_signed = true;
 }
-
 std::ostream& operator<<(std::ostream& os, const Form& obj) {
     os << "Name: " << obj.getName() 
        << ", Signed: " << (obj.isSigned() ? "Yes" : "No") 

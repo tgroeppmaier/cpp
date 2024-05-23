@@ -20,9 +20,7 @@ class Form {
         Form(const string name, const int sign, const int exec);
         Form(const Form& other);
         ~Form();
-        // Form& operator=(const Form& other);
 
-        // Getters
         const string& getName() const;
         bool isSigned() const;
         int getGradeSign() const;
@@ -32,7 +30,5 @@ class Form {
 };
 
 std::ostream& operator<<(std::ostream& os, const Form& obj);
-
-
 
 #endif

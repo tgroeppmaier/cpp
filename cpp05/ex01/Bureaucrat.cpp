@@ -4,7 +4,6 @@
 
 using std::cout;
 
-
 Bureaucrat::Bureaucrat(const string& name)
     : m_name(name) {
     cout << "Bureaucrat default constructor called for " << m_name << '\n';
@@ -29,11 +28,11 @@ Bureaucrat::Bureaucrat(const Bureaucrat& other)
 }
 
 Bureaucrat::~Bureaucrat() {
-    cout << "Bureaucrat default deconstructor called for " << m_name << '\n';
+    cout << "Bureaucrat default destructor called for " << m_name << '\n';
 }
 
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other){
-    if(this != &other){
+    if (this != &other){
         this->m_grade = other.m_grade;
     }
     return *this;
@@ -69,15 +68,18 @@ void Bureaucrat::decGrade(int num){
 }
 
 void Bureaucrat::signForm(Form& form){
-    if(m_grade <= form.getGradeSign()){
+    try {
         form.beSigned(*this);
         cout << m_name << " signed " << form.getName() << '\n';
     }
-    else
-        cout << m_name << " couldn't sign " << form.getName() << " because Grade too low\n";
+    catch (const GradeTooLowException& e) {
+        cout << m_name << " couldn't sign " << form.getName() << " because " << e.what() << "\n";
+    }
 
+    catch (const FormAlreadySigned& e) {
+        cout << m_name << " couldn't sign " << form.getName() << " because " << e.what() << "\n";
+    }
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj) {
     os << obj.getName() << ", bureaucrat grade " << obj.getGrade();

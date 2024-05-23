@@ -30,6 +30,7 @@
 		- [Virtual Functions in C++](#virtual-functions-in-c)
 			- [Virtual Destructor](#virtual-destructor)
 		- [Polymorphism in C++](#polymorphism-in-c)
+		- [Exception handling](#exception-handling)
 
 
 
@@ -359,3 +360,10 @@ public:
 
 Base* obj = new Derived();
 obj->foo();  // Prints "Derived::foo()"
+```
+
+### Exception handling
+
+Exception handling (the `try/catch` block) is typically done at a higher level in the code where you can handle the error appropriately. This could be in the `main` function or in another function that calls `incGrade`.
+
+The reason for this is that `incGrade` itself might not know what to do when an exception occurs. For example, if `incGrade` is part of a larger operation that needs to be rolled back when an error occurs, `incGrade` wouldn't have the necessary context to do that.
