@@ -25,7 +25,7 @@ int main(){
     form_a.beSigned(cog1);
     cog1.signForm(form_a);
 
-    executeWithExceptionHandling(&Bureaucrat::decGrade, cog1);
-    executeWithExceptionHandling(&Bureaucrat::incGrade, cog1);
+    // executeWithExceptionHandling(&Bureaucrat::decGrade, cog1);
+    // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1);
     return 0;
 }
