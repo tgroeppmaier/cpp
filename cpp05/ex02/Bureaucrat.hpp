@@ -50,6 +50,7 @@ class Bureaucrat {
         void decGrade(int num);
 
         void signAForm(AForm& form);
+        void executeForm(AForm const & form);
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj);

@@ -1,6 +1,8 @@
 #include "Bureaucrat.hpp"
-#include "Exceptions.hpp"
 #include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 #include <exception>
 #include <iostream>
 
@@ -22,7 +24,7 @@ void signAFormWithExceptionHandling(void (Bureaucrat::*func)(AForm&), Bureaucrat
     try {
         (bureaucrat.*func)(form);
     }
-    catch (const AForm::AFormAlreadySigned& e) {
+    catch (const AForm::FormAlreadySigned& e) {
         std::cerr << e.what() << '\n';
     }
     catch (const AForm::GradeTooLowException& e) {
@@ -32,7 +34,21 @@ void signAFormWithExceptionHandling(void (Bureaucrat::*func)(AForm&), Bureaucrat
 
 int main(){
     Bureaucrat cog1("Karl", 10);
-    
+    ShrubberyCreationForm form1("home");
+    RobotomyRequestForm formR("Teacher");
+    PresidentialPardonForm formP("Student");
+
+    cog1.signAForm(form1);
+    cog1.signAForm(formR);
+    cog1.signAForm(formP);
+    // cog1.signAForm(form1);
+    // form1.execute(cog1);
+    cog1.executeForm(form1);
+    cog1.executeForm(formR);
+    cog1.executeForm(formP);
+
+
+
     // AForm form_a("28b", 1, 1);
     // form_a.beSigned(cog1);
     // cog1.signAForm(form_a);

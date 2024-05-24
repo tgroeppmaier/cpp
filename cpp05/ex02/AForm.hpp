@@ -26,7 +26,7 @@ class AForm {
             const char* what() const throw();
         };
 
-        class AFormAlreadySigned : public std::exception {
+        class FormAlreadySigned : public std::exception {
         public:
             const char* what() const throw();
         };
@@ -36,6 +36,12 @@ class AForm {
             const char* what() const throw();
         };
         
+        class FormNotSignedException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+        
+        AForm();
         AForm(const string name, const int sign, const int exec);
         AForm(const AForm& other);
         ~AForm();
@@ -47,7 +53,6 @@ class AForm {
         int getGradeExec() const;
 
         void beSigned(Bureaucrat& signer);
-
         virtual void execute(Bureaucrat const & executor) const = 0;
 };
 

@@ -9,7 +9,7 @@ class ShrubberyCreationForm : public AForm {
 
     public:
         ShrubberyCreationForm();
-        ShrubberyCreationForm(string m_target);
+        ShrubberyCreationForm(const string& target);
         ShrubberyCreationForm(const ShrubberyCreationForm& other);
         ~ShrubberyCreationForm();
 
