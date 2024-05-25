@@ -3,21 +3,32 @@
 
 using std::cout;
 
+// exception classes
+
 const char* Form::GradeTooHighException::what() const throw() {
     return "Grade too high";
 }
 
 const char* Form::GradeTooLowException::what() const throw() {
-    return "Grade too low";
+    return "Exception: Grade too low";
 }
 
 const char* Form::NegativeNumberException::what() const throw() {
-    return "Negative number passed";
+    return "Exception: Negative number passed";
 }
 
 const char* Form::FormAlreadySigned::what() const throw() {
-    return "Form is already signed";
+    return "Exception: Form is already signed";
 }
+
+const char* Form::FormNotSignedException::what() const throw() {
+    return "Exception: Form is not signed";
+}
+        
+// Constructors and destructor
+
+Form::Form()
+    : m_name ("Form_default"), m_grade_sign (100), m_grade_exec (50), m_signed (false) {}
 
 Form::Form(const string name, const int sign, const int exec) 
     : m_name (name), m_grade_sign (sign), m_grade_exec (exec), m_signed (false) {
@@ -27,17 +38,16 @@ Form::Form(const string name, const int sign, const int exec)
         else if (sign > 150 || exec > 150) {
         throw GradeTooLowException();
     }
-    cout << "Form default constructor called\n";
 }
 
 Form::Form(const Form& other)
     : m_name (other.m_name), m_grade_sign (other.m_grade_sign), m_grade_exec (other.m_grade_exec), m_signed (false) {
-    cout << "Form copy constructor called\n";       
 }
 
 Form::~Form(){
-    cout << "Form default destructor called\n";       
 }
+
+// operator overload
 
 Form& Form::operator=(const Form& other){
     if (this != &other) {
@@ -45,6 +55,16 @@ Form& Form::operator=(const Form& other){
     }
     return *this;
 }
+
+std::ostream& operator<<(std::ostream& os, const Form& obj) {
+    os << "Name: " << obj.getName() 
+       << ", Signed: " << (obj.isSigned() ? "Yes" : "No") 
+       << ", Grade to Sign: " << obj.getGradeSign() 
+       << ", Grade to Execute: " << obj.getGradeExec();
+    return os;
+}
+
+// member functions
 
 const string& Form::getName() const {
     return m_name;
@@ -62,8 +82,7 @@ int Form::getGradeExec() const {
     return m_grade_exec;
 }
 
-
-void Form::beSigned(Bureaucrat& signer){
+void Form::beSigned(const Bureaucrat& signer){
     if (isSigned()) {
         throw FormAlreadySigned();
     }
@@ -71,12 +90,4 @@ void Form::beSigned(Bureaucrat& signer){
         throw GradeTooLowException();
     }
     m_signed = true;
-}
-
-std::ostream& operator<<(std::ostream& os, const Form& obj) {
-    os << "Name: " << obj.getName() 
-       << ", Signed: " << (obj.isSigned() ? "Yes" : "No") 
-       << ", Grade to Sign: " << obj.getGradeSign() 
-       << ", Grade to Execute: " << obj.getGradeExec();
-    return os;
 }

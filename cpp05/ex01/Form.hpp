@@ -36,6 +36,12 @@ class Form {
             const char* what() const throw();
         };
         
+        class FormNotSignedException : public std::exception {
+        public:
+            const char* what() const throw();
+        };
+        
+        Form();
         Form(const string name, const int sign, const int exec);
         Form(const Form& other);
         ~Form();
@@ -46,7 +52,7 @@ class Form {
         int getGradeSign() const;
         int getGradeExec() const;
 
-        void beSigned(Bureaucrat& signer);
+        void beSigned(const Bureaucrat& signer);
 };
 
 std::ostream& operator<<(std::ostream& os, const Form& obj);

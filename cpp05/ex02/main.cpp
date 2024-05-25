@@ -52,7 +52,7 @@ int main(){
     PresidentialPardonForm formP("Student");
 
     cog1.signAForm(formS);
-    beSignedWithException(formS, cog1);
+    // beSignedWithException(formS, cog1);
     // cog1.signAForm(formS);
     cog1.signAForm(formR);
     cog1.signAForm(formP);

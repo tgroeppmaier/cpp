@@ -36,6 +36,7 @@ class Bureaucrat {
             const char* what() const throw();
         };
 
+        Bureaucrat();
         Bureaucrat(const string& name);
         Bureaucrat(const string& name, int grade);
         Bureaucrat(const Bureaucrat& other);

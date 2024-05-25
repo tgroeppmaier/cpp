@@ -26,7 +26,7 @@ class Bureaucrat {
             const char* what() const throw();
         };
 
-        class FormAlreadySigned : public std::exception {
+        class AFormAlreadySigned : public std::exception {
         public:
             const char* what() const throw();
         };
@@ -36,7 +36,7 @@ class Bureaucrat {
             const char* what() const throw();
         };
 
-
+        Bureaucrat();
         Bureaucrat(const string& name);
         Bureaucrat(const string& name, int grade);
         Bureaucrat(const Bureaucrat& other);

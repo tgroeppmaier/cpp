@@ -23,12 +23,15 @@ const char* Bureaucrat::NegativeNumberException::what() const throw() {
 
 // Constructors
 
+Bureaucrat::Bureaucrat()
+    : m_name("Stapler") {}
+
 Bureaucrat::Bureaucrat(const string& name)
     : m_name(name) {}
 
 Bureaucrat::Bureaucrat(const string& name, int grade)
-    : m_name (name),
-      m_grade (grade) {
+    : m_name(name),
+      m_grade(grade) {
     if (grade < 1) {
         throw GradeTooHighException();
     } 
@@ -38,8 +41,8 @@ Bureaucrat::Bureaucrat(const string& name, int grade)
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other)
-    : m_name (other.m_name),
-      m_grade (other.m_grade) {
+    : m_name(other.m_name),
+      m_grade(other.m_grade) {
 }
 
 Bureaucrat::~Bureaucrat() {}
