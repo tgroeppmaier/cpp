@@ -20,11 +20,11 @@ void IncDecWithExceptionHandling(void (Bureaucrat::*func)(int), Bureaucrat& bure
     }
 }
 
-void signAFormWithExceptionHandling(void (Bureaucrat::*func)(AForm&), Bureaucrat& bureaucrat, AForm& form){
+void ExecuteFormWithException(void (AForm::*func)(const Bureaucrat&) const, Bureaucrat& bureaucrat, AForm& form) {
     try {
-        (bureaucrat.*func)(form);
+        (form.*func)(bureaucrat);
     }
-    catch (const AForm::FormAlreadySigned& e) {
+    catch (const AForm::FormNotSignedException& e) {
         std::cerr << e.what() << '\n';
     }
     catch (const AForm::GradeTooLowException& e) {
@@ -32,29 +32,37 @@ void signAFormWithExceptionHandling(void (Bureaucrat::*func)(AForm&), Bureaucrat
     }
 }
 
+void beSignedWithException(AForm& form, const Bureaucrat& bureaucrat) {
+    try {
+        form.beSigned(bureaucrat);
+    }
+    catch (const AForm::FormAlreadySigned& e) {
+        std::cerr << e.what() << '\n';
+    }
+    catch (const AForm::GradeTooLowException& e) {
+        std::cerr << e.what() << '\n';
+    }
+
+}
+
 int main(){
-    Bureaucrat cog1("Karl", 10);
-    ShrubberyCreationForm form1("home");
+    Bureaucrat cog1("Karl", 100);
+    ShrubberyCreationForm formS("home");
     RobotomyRequestForm formR("Teacher");
     PresidentialPardonForm formP("Student");
 
-    cog1.signAForm(form1);
+    cog1.signAForm(formS);
+    beSignedWithException(formS, cog1);
+    // cog1.signAForm(formS);
     cog1.signAForm(formR);
     cog1.signAForm(formP);
-    // cog1.signAForm(form1);
-    // form1.execute(cog1);
-    cog1.executeForm(form1);
+    ExecuteFormWithException(&AForm::execute, cog1, formP);
+    // formP.execute(cog1);
+    cog1.executeForm(formS);
     cog1.executeForm(formR);
     cog1.executeForm(formP);
 
 
-
-    // AForm form_a("28b", 1, 1);
-    // form_a.beSigned(cog1);
-    // cog1.signAForm(form_a);
-    // signAFormWithExceptionHandling(&Bureaucrat::signAForm, cog1, form_a);
-
     // IncDecWithExceptionHandling(&Bureaucrat::decGrade, cog1, 200);
-    // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1, 1);
     return 0;
 }

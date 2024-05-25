@@ -14,18 +14,17 @@ const char* AForm::GradeTooLowException::what() const throw() {
 }
 
 const char* AForm::NegativeNumberException::what() const throw() {
-    return "Negative number passed";
+    return "Exception: Negative number passed";
 }
 
 const char* AForm::FormAlreadySigned::what() const throw() {
-    return "Form is already signed";
+    return "Exception: Form is already signed";
 }
 
 const char* AForm::FormNotSignedException::what() const throw() {
-    return "Form is not signed";
+    return "Exception: Form is not signed";
 }
         
-
 // Constructors and destructor
 
 AForm::AForm()
@@ -65,7 +64,7 @@ std::ostream& operator<<(std::ostream& os, const AForm& obj) {
     return os;
 }
 
-// getters and setters
+// member functions
 
 const string& AForm::getName() const {
     return m_name;
@@ -83,9 +82,7 @@ int AForm::getGradeExec() const {
     return m_grade_exec;
 }
 
-// member functions
-
-void AForm::beSigned(Bureaucrat& signer){
+void AForm::beSigned(const Bureaucrat& signer){
     if (isSigned()) {
         throw FormAlreadySigned();
     }
@@ -94,4 +91,3 @@ void AForm::beSigned(Bureaucrat& signer){
     }
     m_signed = true;
 }
-

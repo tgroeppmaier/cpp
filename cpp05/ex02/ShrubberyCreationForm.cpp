@@ -2,20 +2,21 @@
 #include "Bureaucrat.hpp"
 #include <fstream>
 
-// Default constructor
-ShrubberyCreationForm::ShrubberyCreationForm() : AForm("Shrubbery_form", 145, 137), m_target("default") {}
+// Constructors
 
-// Parameterized constructor
+ShrubberyCreationForm::ShrubberyCreationForm() 
+    : AForm("ShrubberyCreationForm", 145, 137), m_target("default") {}
+
 ShrubberyCreationForm::ShrubberyCreationForm(const string& target) 
-    : AForm("Shrubbery_form", 145, 137), m_target(target) {}
+    : AForm("ShrubberyCreationForm", 145, 137), m_target(target) {}
     
-// Copy constructor
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other) : AForm(other), m_target(other.m_target) {}
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other) 
+    : AForm(other), m_target(other.m_target) {}
 
-// Destructor
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
-// Copy assignment operator
+// Operator overload
+
 ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationForm& other) {
     if (this != &other) {
         AForm::operator=(other);
@@ -24,7 +25,15 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
     return *this;
 }
 
-// execute method
+// Member functions
+
+string ShrubberyCreationForm::getTarget() const {
+    return m_target;
+}
+
+void ShrubberyCreationForm::setTarget(const string& target) {
+    m_target = target;
+}
 
 void ShrubberyCreationForm::execute(Bureaucrat const & executor) const {
     if (!isSigned()) {
@@ -42,14 +51,4 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const {
 
     file << "  ^  \n / \\ \n/   \\ \n  ^  \n / \\ \n/   \\ \n";
     file.close();
-}
-
-// Getter for m_target
-string ShrubberyCreationForm::getTarget() const {
-    return m_target;
-}
-
-// Setter for m_target
-void ShrubberyCreationForm::setTarget(const string& target) {
-    m_target = target;
 }

@@ -24,9 +24,7 @@ const char* Bureaucrat::NegativeNumberException::what() const throw() {
 // Constructors
 
 Bureaucrat::Bureaucrat(const string& name)
-    : m_name(name) {
-    cout << "Bureaucrat default constructor called for " << m_name << '\n';
-}
+    : m_name(name) {}
 
 Bureaucrat::Bureaucrat(const string& name, int grade)
     : m_name (name),
@@ -37,18 +35,14 @@ Bureaucrat::Bureaucrat(const string& name, int grade)
     if (grade > 150) {
         throw GradeTooLowException();
     }
-    cout << "Bureaucrat constructor called for " << m_name << " with grade " << m_grade << '\n';
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other)
     : m_name (other.m_name),
       m_grade (other.m_grade) {
-    cout << "Bureaucrat copy constructor called for " << m_name << " with grade " << m_grade << '\n';
 }
 
-Bureaucrat::~Bureaucrat() {
-    cout << "Bureaucrat default destructor called for " << m_name << '\n';
-}
+Bureaucrat::~Bureaucrat() {}
 
 // Operator overload
 
@@ -96,8 +90,16 @@ void Bureaucrat::decGrade(int num){
 }
 
 void Bureaucrat::signAForm(AForm& form){
-    form.beSigned(*this);
-    cout << m_name << " signed " << form.getName() << '\n';
+    try {
+        form.beSigned(*this);
+        cout << m_name << " signed " << form.getName() << '\n';
+    } 
+    catch (const AForm::FormAlreadySigned& e) {
+        std::cerr << e.what() << ". " << m_name << " cannot sign " << form.getName() << '\n';
+    }
+    catch (const AForm::GradeTooLowException& e) {
+        std::cerr << e.what() << " for " << m_name << " to sign " << form.getName() <<  '\n';
+    }
 }
 
 void Bureaucrat::executeForm(AForm const & form){
@@ -106,10 +108,10 @@ void Bureaucrat::executeForm(AForm const & form){
         cout << m_name << " executed " << form.getName() << '\n';
     }
     catch (const AForm::GradeTooLowException& e) {
-        std::cerr << e.what() << " for " << form.getName() <<  '\n';
+        std::cerr << e.what() << " for " << m_name << " to execute " << form.getName() <<  '\n';
     }
     catch (const AForm::FormNotSignedException& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << ". " << m_name << " cannot execute " << form.getName() << '\n';
     }
 }
 

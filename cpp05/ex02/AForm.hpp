@@ -52,7 +52,7 @@ class AForm {
         int getGradeSign() const;
         int getGradeExec() const;
 
-        void beSigned(Bureaucrat& signer);
+        void beSigned(const Bureaucrat& signer);
         virtual void execute(Bureaucrat const & executor) const = 0;
 };
 
