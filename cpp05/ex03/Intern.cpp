@@ -1,4 +1,9 @@
 #include "Intern.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include <iostream>
+#include <stdexcept> // for std::runtime_error
 
 Intern::Intern() {
     name_array[0] = "shrubbery creation";
@@ -24,11 +29,12 @@ AForm* Intern::createPresidentialPardonForm(const std::string& target) {
     return new PresidentialPardonForm(target);
 }
 
+
 AForm* Intern::makeForm(const string& name, const string& target) {
     for (int i = 0; i < 3; i++) {
         if (name_array[i] == name) {
             return functionArray[i](target);
         }
     }
-    return NULL;
+    throw std::runtime_error("Could not find function for " + name);
 }
