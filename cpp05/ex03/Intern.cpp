@@ -31,9 +31,12 @@ AForm* Intern::createPresidentialPardonForm(const std::string& target) {
 
 
 AForm* Intern::makeForm(const string& name, const string& target) {
+    AForm* form = NULL;
     for (int i = 0; i < 3; i++) {
         if (name_array[i] == name) {
-            return functionArray[i](target);
+            form = functionArray[i](target);
+            std::cout << "Intern creates " << form->getName() << '\n';
+            return form;
         }
     }
     throw std::runtime_error("Could not find function for " + name);
