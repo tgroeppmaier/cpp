@@ -1,5 +1,5 @@
-#ifndef FORM_HPP
-#define FORM_HPP
+#ifndef AFORM_HPP
+#define AFORM_HPP
 
 #include "Bureaucrat.hpp"
 #include <string>
@@ -44,7 +44,7 @@ class AForm {
         AForm();
         AForm(const string name, const int sign, const int exec);
         AForm(const AForm& other);
-        ~AForm();
+        virtual ~AForm();
         AForm& operator=(const AForm& other);
 
         const string& getName() const;
