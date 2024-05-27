@@ -8,18 +8,6 @@
 
 using std::cout;
 
-void IncDecWithExceptionHandling(void (Bureaucrat::*func)(int), Bureaucrat& bureaucrat, int num) {
-    try {
-        (bureaucrat.*func)(num);
-    } catch (const Bureaucrat::GradeTooHighException& e) {
-        std::cerr << "GradeTooHighException: " << e.what() << '\n';
-    } catch (const Bureaucrat::GradeTooLowException& e) {
-        std::cerr << "GradeTooLowException: " << e.what() << '\n';
-    } catch (const Bureaucrat::NegativeNumberException& e) {
-        std::cerr << "NegativeNumberException: " << e.what() << '\n';
-    }
-}
-
 void ExecuteFormWithException(void (AForm::*func)(const Bureaucrat&) const, Bureaucrat& bureaucrat, AForm& form) {
     try {
         (form.*func)(bureaucrat);
@@ -52,17 +40,20 @@ int main(){
     PresidentialPardonForm formP("Student");
 
     cog1.signAForm(formS);
-    // beSignedWithException(formS, cog1);
-    // cog1.signAForm(formS);
+    beSignedWithException(formS, cog1);
+    cog1.signAForm(formS);
     cog1.signAForm(formR);
     cog1.signAForm(formP);
     ExecuteFormWithException(&AForm::execute, cog1, formP);
-    // formP.execute(cog1);
     cog1.executeForm(formS);
     cog1.executeForm(formR);
     cog1.executeForm(formP);
 
+    Bureaucrat boss("Boss", 1);
+    boss.signAForm(formR);
+    boss.signAForm(formP);
+    boss.executeForm(formR);
+    boss.executeForm(formP);
 
-    // IncDecWithExceptionHandling(&Bureaucrat::decGrade, cog1, 200);
     return 0;
 }
