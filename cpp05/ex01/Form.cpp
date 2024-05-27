@@ -6,7 +6,7 @@ using std::cout;
 // exception classes
 
 const char* Form::GradeTooHighException::what() const throw() {
-    return "Grade too high";
+    return "Exception: Grade too high";
 }
 
 const char* Form::GradeTooLowException::what() const throw() {

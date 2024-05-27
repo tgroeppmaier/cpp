@@ -5,18 +5,6 @@
 
 using std::cout;
 
-void IncDecWithExceptionHandling(void (Bureaucrat::*func)(int), Bureaucrat& bureaucrat, int num) {
-    try {
-        (bureaucrat.*func)(num);
-    } catch (const Bureaucrat::GradeTooHighException& e) {
-        std::cerr << "GradeTooHighException: " << e.what() << '\n';
-    } catch (const Bureaucrat::GradeTooLowException& e) {
-        std::cerr << "GradeTooLowException: " << e.what() << '\n';
-    } catch (const Bureaucrat::NegativeNumberException& e) {
-        std::cerr << "NegativeNumberException: " << e.what() << '\n';
-    }
-}
-
 void signFormWithExceptionHandling(void (Bureaucrat::*func)(Form&), Bureaucrat& bureaucrat, Form& form){
     try {
         (bureaucrat.*func)(form);
@@ -32,12 +20,37 @@ void signFormWithExceptionHandling(void (Bureaucrat::*func)(Form&), Bureaucrat& 
 int main(){
     Bureaucrat cog1("Karl", 10);
     
-    Form form_a("28b", 1, 1);
-    // form_a.beSigned(cog1);
-    // cog1.signForm(form_a);
+    try {
+        Form form_h("28h", 151, 1);
+    }
+    catch (const Form::GradeTooLowException& e) {
+        std::cerr << e.what() << '\n';
+    }
+
+    try {
+        Form form_l("28h", 0, 1);
+    }    
+    catch (const Form::GradeTooHighException& e) {
+        std::cerr << e.what() << '\n';
+    }
+
+    Form form_a("28b", 10, 1);
+    
+    try {
+        form_a.beSigned(cog1);
+    }
+    catch (const Form::FormAlreadySigned& e) {
+        std::cerr << e.what() << '\n';
+
+    }
     signFormWithExceptionHandling(&Bureaucrat::signForm, cog1, form_a);
 
-    IncDecWithExceptionHandling(&Bureaucrat::decGrade, cog1, 200);
-    // executeWithExceptionHandling(&Bureaucrat::incGrade, cog1, 1);
+    cout << "Name: " << form_a.getName() << '\n';
+    cout << "Is Signed: " << (form_a.isSigned() ? "Yes" : "No") << '\n';
+    cout << "Grade to Sign: " << form_a.getGradeSign() << '\n';
+    cout << "Grade to Execute: " << form_a.getGradeExec() << '\n';
+
+    cout << form_a << '\n';
+
     return 0;
 }
