@@ -1,6 +1,6 @@
 CC = c++
 CFLAGS = -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -Wshadow -g -std=c++98
-NAME = main 
+NAME = convert 
 SRC = convert.cpp ScalarConverter.cpp
 OBJ = $(SRC:.cpp=.o)
 HEADER = ScalarConverter.hpp

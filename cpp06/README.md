@@ -38,6 +38,42 @@ In C++, there are four types of type casting:
     int* p = new int(65);
     char* ch = reinterpret_cast<char*>(p);  // ch now points to the same memory location as p
     ```
+
+### Dynamic conversion with stringstream
+
+```cpp
+#include <iostream>
+#include <sstream> // for std::stringstream
+#include <string>
+
+int main(int argc, char* argv[])
+{
+    if (argc != 2)
+    {
+        // On some operating systems, argv[0] can end up as an empty string instead of the program's name.
+        // We'll conditionalize our response on whether argv[0] is empty or not.
+        if (argv[0])
+            std::cout << "Usage: " << argv[0] << " <number>" << '\n';
+        else
+            std::cout << "Usage: <program name> <number>" << '\n';
+
+        return 1;
+    }
+
+    std::stringstream convert; // set up a stringstream variable named convert
+    convert << argv[1]; // insert the input from argv[1] into the stringstream
+
+    int myint = 0;
+    if (!(convert >> myint)) // do the conversion
+        myint = 0; // if conversion fails, set myint to a default value
+
+    std::cout << "Got integer: " << myint << '\n';
+
+    return 0;
+}
+```
+
+
 ### Direct List initialization
 
 
@@ -54,6 +90,18 @@ int i = 3.14;  // Compiles, but the value is truncated to 3 (narrowing conversio
 int j{ 3.14 }; // Does not compile, error due to narrowing conversion.
 ```
 
+## Utility classes
+
+A class like `ScalarConverter` in C++ is a utility class that only contains static methods and no instance variables. It's designed to provide a group of related functions without needing to create an instance of the class. 
+
+Key points:
+
+- The class is not meant to be instantiated. This is enforced by declaring a private constructor. This prevents the creation of objects of this class.
+- All methods are static, meaning they belong to the class itself, not to any instance of the class. They can be called directly on the class.
+- The class acts as a namespace for its methods, grouping related functions together.
+- This design is useful for organizing code and encapsulating related functions, especially for utility functions that don't operate on specific objects.
+
+This kind of class is common in utility libraries and frameworks, where a set of related functions need to be grouped together but don't operate on common data.
 
 ## Static methods
 
@@ -70,3 +118,5 @@ class ScalarConverter {
     public:
         static void convert(std::string& str);
 };
+
+##
