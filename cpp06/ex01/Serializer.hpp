@@ -7,8 +7,6 @@
 class Serializer {
     private:
         Serializer();
-        Serializer(const Serializer&) = delete;
-        Serializer& operator=(const Serializer&) = delete;
 
     public:
         static uintptr_t serialize(Data* ptr);
