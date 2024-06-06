@@ -22,12 +22,20 @@ Function templates can work with any data type, allowing us to write the functio
 **Example:**
 
 ```cpp
-template <typename T>
-void swap(T& a, T& b) {
-    T temp = a;
-    a = b;
-    b = temp;
+// int version
+int max_int(int x, int y)
+{
+    return (x < y) ? y : x;
 }
+
+// Function template
+template <typename T> // template parameter declaration
+T max(T x, T y) // function template definition for max<T>
+{
+    return (x < y) ? y : x;
+}
+
+max<int>(5, 6) // compiler instantiates the function template with int and passes (5, 6)
 ```
 
 ## Exercises
@@ -36,7 +44,7 @@ In this module, we are required to implement various function templates. Detaile
 
 ### Exercise 00
 
-In this exercise, we are required to implement three function templates:
+We are required to implement three function templates:
 
 - **swap:** This function swaps the values of two given arguments. It does not return anything.
 - **min:** This function compares the two values passed as arguments. It returns the smallest one. If the two values are equal, it returns the second one.
