@@ -3,7 +3,7 @@ CFLAGS = -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -Wshadow 
 NAME = main 
 SRC = main.cpp
 OBJ = $(SRC:.cpp=.o)
-HEADER = iter.hpp
+HEADER = Array.hpp
 
 all: $(NAME)
 
