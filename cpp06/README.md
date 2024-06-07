@@ -8,10 +8,6 @@ There are two main types of type casting:
 
 2. **Explicit Type Casting (also known as manual)**: This is performed by the programmer using casting operators. It's used when you want to force a conversion, typically between incompatible data types. This is what we refer to when we talk about type casting in C++ (static_cast, dynamic_cast, const_cast, reinterpret_cast).
 
-Type casting can be a powerful tool, but it should be used judiciously, as improper use can lead to errors and unexpected behavior.
-
-Type casting, also known as type conversion, is a method of changing an entity from one data type to another. This is a key concept in programming, as it allows for the manipulation and transformation of data. 
-
 In C++, there are four types of type casting:
 
 1. **Static Cast**: This is used for standard conversions, such as converting a `double` to an `int` or a `void*` to another pointer type. It performs compile-time type checking.
