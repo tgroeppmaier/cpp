@@ -17,19 +17,22 @@ In C++, there are four types of type casting:
     ```
 
 2. **Dynamic Cast**: This is used for handling polymorphism. You can use it to cast a pointer or reference from a base type into a pointer or reference to a derived type. It performs run-time type checking.
+    
     ```cpp
     Base* basePtr = new Derived();
     Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);  // valid only if basePtr indeed points to a Derived object
     ```
 
 3. **Const Cast**: This is used to add or remove the `const` qualifier from a variable. It doesn't modify the constness of the object itself, but it does allow the modification of the const object through the new non-const reference.
+
     ```cpp
     const int a = 10;
     int* b = const_cast<int*>(&a);
     *b = 5;  // undefined behavior
     ```
 
-4. **Reinterpret Cast**: This is used for low-level, implementation-dependent conversions, such as a pointer to an integer or one pointer type to another. It simply treats the bit pattern of the object as if it had the new type.
+4. **Reinterpret Cast**: is used to convert one pointer type to another pointer type or one reference type to another reference type. Unlike `static_cast`, `reinterpret_cast` doesn't actually convert the data types but reinterprets one pointer type as another at compile time.
+    
     ```cpp
     int* p = new int(65);
     char* ch = reinterpret_cast<char*>(p);  // ch now points to the same memory location as p
