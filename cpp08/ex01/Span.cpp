@@ -1,5 +1,6 @@
 #include "Span.hpp"
 #include <exception>
+#include <iostream>
 #include <stdexcept> // Include for std::out_of_range
 #include <algorithm> // Include for std::sort
 #include <limits>    // Include for std::numeric_limits
@@ -24,8 +25,14 @@ void Span::addNumber(int num) {
     m_nums.push_back(num);
 }
 
-
-// Assuming these are member functions of the Span class
+void Span::addRange(std::vector<int>::iterator start, std::vector<int>::iterator end) {
+    for (std::vector<int>::iterator it = start; it != end; ++it) {
+        if (m_nums.size() == m_N) {
+            throw std::out_of_range("Cannot add more numbers, Span is full.");
+        }
+        m_nums.push_back(*it);
+    }
+}
 
 int Span::shortestSpan() {
     if (m_nums.size() < 2) {
@@ -51,5 +58,12 @@ int Span::longestSpan() {
     std::vector<int>::iterator min = std::min_element(m_nums.begin(), m_nums.end());
     std::vector<int>::iterator max = std::max_element(m_nums.begin(), m_nums.end());
     return *max - *min;
+}
+
+void Span::printRange() {
+    for (std::vector<int>::iterator it = m_nums.begin(); it != m_nums.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
 }
 
