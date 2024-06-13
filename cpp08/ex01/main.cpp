@@ -1,5 +1,6 @@
 #include "Span.hpp"
 #include <iostream>
+#include <numeric>
 
 void subject() {
     Span sp = Span(5);
@@ -14,23 +15,21 @@ void subject() {
 
 void extra() {
     Span sp(50000);
+    std::vector<int> numbers(50000);
     try {
-        std::vector<int> numbers;
-        for (int i = 1; i <= 50000; ++i) {
-            numbers.push_back(i * 2);
-        }
+        std::iota(numbers.begin(), numbers.end(), 0);
         sp.addRange(numbers.begin(), numbers.end());
     }
     catch (const std::exception& e) {
         std::cerr << "Exception caught: " << e.what() << std::endl;
     }
-    // sp.printRange();
+    sp.printRange();
     std::cout << sp.shortestSpan() << std::endl;
     std::cout << sp.longestSpan() << std::endl;
 }
 
 int main() {
-    // subject();
-    extra();
+    subject();
+    // extra();
     return 0;
 }

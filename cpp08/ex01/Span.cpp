@@ -7,7 +7,7 @@
 
 Span::Span() : m_N(10) {}
 Span::Span(unsigned int N) : m_N(N) {}
-Span::Span(const Span& other) : m_nums(other.m_nums), m_N(other.m_N) {} // Copy constructor
+Span::Span(const Span& other) : m_nums(other.m_nums), m_N(other.m_N) {}
 Span::~Span() {}
 
 Span& Span::operator=(const Span& other) {
@@ -46,7 +46,6 @@ int Span::shortestSpan() {
     for (size_t i = 1; i < sorted_nums.size(); ++i) {
         shortest = std::min(shortest, sorted_nums[i] - sorted_nums[i - 1]);
     }
-
     return shortest;
 }
 

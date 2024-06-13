@@ -9,9 +9,9 @@ class Span {
         unsigned int m_N;
 
     public:
-        Span(); // Initializes m_nums to size 10
-        Span(unsigned int N); // Initializes m_nums to size N
-        Span(const Span& other); // Copy constructor
+        Span();
+        Span(unsigned int N);
+        Span(const Span& other);
         ~Span();
 
         // Operator overload
