@@ -1,8 +1,7 @@
-#include <algorithm> // For std::find
+#include <algorithm>
 #include <exception>
-#include <iterator> // For std::distance
+#include <iterator>
 
-// Define a custom exception for not found cases
 class NotFoundException : public std::exception {
 public:
     const char* what() const throw() {
