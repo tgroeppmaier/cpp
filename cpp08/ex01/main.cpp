@@ -14,16 +14,33 @@ void subject() {
 }
 
 void extra() {
-    Span sp(50000);
-    std::vector<int> numbers(50000);
+    Span sp_short(1);
     try {
-        std::iota(numbers.begin(), numbers.end(), 0);
+        std::cout << sp_short.shortestSpan() << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
+    try {
+        std::cout << sp_short.longestSpan() << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
+    Span sp(50000);
+    std::vector<int> numbers(50001);
+
+    int startValue = 0;
+    for (std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); ++it) {
+        *it = startValue++;
+    }
+    try {
         sp.addRange(numbers.begin(), numbers.end());
     }
     catch (const std::exception& e) {
         std::cerr << "Exception caught: " << e.what() << std::endl;
     }
-    sp.printRange();
+    // sp.printRange();
     std::cout << sp.shortestSpan() << std::endl;
     std::cout << sp.longestSpan() << std::endl;
 }

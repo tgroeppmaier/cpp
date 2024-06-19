@@ -5,10 +5,11 @@
 
 class Span {
     private:
-        std::vector<int> m_nums;
         unsigned int m_N;
+        std::vector<int> m_nums;
 
     public:
+        // Constructors
         Span();
         Span(unsigned int N);
         Span(const Span& other);
@@ -19,9 +20,11 @@ class Span {
 
         // Member functions
         void addNumber(int num);
+        int shortestSpan() const;
+        int longestSpan() const;
         void addRange(std::vector<int>::iterator start, std::vector<int>::iterator end);
-        void printRange();
-        int shortestSpan();
-        int longestSpan();
+
+        // Optional
+        void printRange() const;
 };
 #endif
