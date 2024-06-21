@@ -1,9 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -Weffc++ -Wconversion -Wsign-conversion -Wshadow -g -std=c++98
-NAME = main 
-SRC = main.cpp
+NAME = btc
+SRC = main.cpp BitcoinExchange.cpp
 OBJ = $(SRC:.cpp=.o)
-HEADER = MutantStack.hpp
+HEADER = BitcoinExchange.hpp
 
 all: $(NAME)
 
