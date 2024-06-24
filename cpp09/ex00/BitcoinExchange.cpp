@@ -36,16 +36,19 @@ void BitcoinExchange::initializeDB() {
 // input in format "yyyy-mm-dd | float 0-1000"
 
 bool BitcoinExchange::isValidLine(const std::string& line) {
-    // Basic length check
-    if (line.length() < 13) return false;
-
     // Check format "yyyy-mm-dd | "
-    if (line[4] != '-' || line[7] != '-' || line[10] != ' ' || line[11] != '|' || line[12] != ' ') return false;
+    if (line.length() < 13 || line[4] != '-' || line[7] != '-' || line[10] != ' ' || line[11] != '|' || line[12] != ' ') {
+            cout << "Error: bad input => " << line << std::endl;
+            return false;
+        }
 
     // Check if year, month, and day are digits
     for (size_t i = 0; i < 10; ++i) {
         if (i == 4 || i == 7) continue; // Skip '-' characters
-        if (!std::isdigit(line[i])) return false;
+        if (!std::isdigit(line[i])) {
+            cout << "Error: bad input => " << line << std::endl;
+            return false;
+        }
     }
 
     // Extract and validate the float part
@@ -54,8 +57,18 @@ bool BitcoinExchange::isValidLine(const std::string& line) {
     double value = std::strtod(floatPart.c_str(), &end);
 
     // Check if conversion consumed the entire string and if value is in range
-    if (*end != '\0' || value < 0.0 || value > 1000.0) return false;
-
+    if (*end != '\0') {
+        cout << "Error: bad input => " << line << std::endl;
+        return false;
+    }
+    if (value < 0.0) {
+        cout << "Error: not a positive number." << std::endl;
+        return false;
+    }
+    if (value > 1000.0) {
+        cout << "Error: too large number." << std::endl;
+        return false;
+    }
     return true;
 }
 
@@ -78,10 +91,25 @@ void BitcoinExchange::readInput(const std::string& input_path) {
 void BitcoinExchange::processInput() {
     std::istringstream iss(m_input_data);
     std::string line;
+    double amount;
+    char *end;
 
     while (std::getline(iss, line)) {
-        // Process each line. For example:
-        std::cout << line << std::endl;
+        if (!isValidLine(line)) {
+            continue;
+        }
+        std::string part = line.substr(0, 10); // Assuming 'part' is the date in 'yyyy-mm-dd' format
+
+        std::map<std::string, float>::iterator it = m_db_data.lower_bound(part);
+        if (it == m_db_data.end()) {
+            // No element is greater than or equal to 'part', hence no younger date found
+            std::cout << "No younger date found for " << part << std::endl;
+        } else {
+            // Found a date that is not younger than 'part'
+            // Directly use 'it' without decrementing, as 'lower_bound' already gives us the closest non-younger date
+            amount = strtod(line.c_str() + 13, &end);
+            std::cout << it->first << " => " << amount << " = " << it->second * amount << std::endl;
+        }
     }
 }
 

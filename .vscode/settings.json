@@ -85,6 +85,7 @@
         "execution": "cpp",
         "ios": "cpp",
         "locale": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "__tree": "cpp"
     }
 }

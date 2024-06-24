@@ -21,7 +21,8 @@ class BitcoinExchange {
 
 
         bool isValidLine(const std::string& line);
-        bool isValidAmount(const std::string& amountStr, float& amount);
+        
+        // bool isValidAmount(const std::string& amountStr, float& amount);
 
     public:
         // BitcoinExchange();
