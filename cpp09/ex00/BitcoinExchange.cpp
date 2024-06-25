@@ -1,51 +1,84 @@
 #include "BitcoinExchange.hpp"
 #include <fstream>
 #include <sstream>
-#include <iomanip>  // For std::fixed and std::setprecision
+#include <iomanip> // For std::fixed and std::setprecision
 #include <cstdlib> // For atof
-#include <cctype> // Include this for std::isdigit
+#include <cctype>  // Include this for std::isdigit
 
-// BitcoinExchange::BitcoinExchange() {}
+BitcoinExchange::BitcoinExchange(const std::string &db_path) : m_db_path(db_path), m_db_data(), m_input_data() {}
 
-BitcoinExchange::BitcoinExchange(const std::string& db_path) : m_db_path(db_path), m_db_data(), m_input_data() {}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
+    : m_db_path(other.m_db_path), m_db_data(other.m_db_data), m_input_data(other.m_input_data) {}
 
 BitcoinExchange::BitcoinExchange::~BitcoinExchange() {}
 
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
+{
+    if (this != &other)
+    {
+        m_db_path = other.m_db_path;
+        m_db_data = other.m_db_data;
+        m_input_data = other.m_input_data;
+    }
+    return *this;
+}
 
-void BitcoinExchange::initializeDB() {
+void BitcoinExchange::initializeDB()
+{
     std::ifstream dbFile(m_db_path.c_str());
     if (!dbFile) {
         throw std::runtime_error("Failed to open database file at " + m_db_path);
     }
 
-   std::string line;
-   std::getline(dbFile, line); // read and discard first line
-    while (std::getline(dbFile, line)) {
+    std::string line;
+    std::getline(dbFile, line); // read and discard first line
+    while (std::getline(dbFile, line))
+    {
         std::istringstream lineStream(line);
         string dateStr, rateStr;
-        if (std::getline(lineStream, dateStr, ',') && std::getline(lineStream, rateStr)) {
+        if (std::getline(lineStream, dateStr, ',') && std::getline(lineStream, rateStr))
+        {
             float rate;
-            std::istringstream(rateStr) >> rate;
+            std::istringstream(rateStr) >> rate; // create an ss object and then extract it into rate
             m_db_data[dateStr] = rate;
         }
     }
 }
 
-// 0 1 2 3 4 5 6 7 8 9
-// Y Y Y Y - M M - D D
-// input in format "yyyy-mm-dd | float 0-1000"
+bool BitcoinExchange::isValidDate(const std::string &line)
+{
+    std::string date = line.substr(0, 10);
 
-bool BitcoinExchange::isValidLine(const std::string& line) {
+    int year, month, day;
+    std::istringstream dateStream(date.substr(0, 4) + " " + date.substr(5, 2) + " " + date.substr(8, 2));
+    dateStream >> year >> month >> day;
+
+    int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    if (year < 1900 || year > 2100 || month < 1 || month > 12 || day < 1 || day > daysInMonth[month])
+    {
+        std::cout << "Error: Date out of range => " << date << std::endl;
+        return false;
+    }
+    return true; // Date is valid
+}
+
+bool BitcoinExchange::isValidLine(const std::string &line)
+{
     // Check format "yyyy-mm-dd | "
-    if (line.length() < 13 || line[4] != '-' || line[7] != '-' || line[10] != ' ' || line[11] != '|' || line[12] != ' ') {
-            cout << "Error: bad input => " << line << std::endl;
-            return false;
-        }
+    if (line.length() < 13 || line[4] != '-' || line[7] != '-' || line[10] != ' ' || line[11] != '|' || line[12] != ' ')
+    {
+        cout << "Error: bad input => " << line << std::endl;
+        return false;
+    }
 
     // Check if year, month, and day are digits
-    for (size_t i = 0; i < 10; ++i) {
-        if (i == 4 || i == 7) continue; // Skip '-' characters
-        if (!std::isdigit(line[i])) {
+    for (size_t i = 0; i < 10; ++i)
+    {
+        if (i == 4 || i == 7)
+            continue; // Skip '-' characters
+        if (!std::isdigit(line[i]))
+        {
             cout << "Error: bad input => " << line << std::endl;
             return false;
         }
@@ -53,26 +86,27 @@ bool BitcoinExchange::isValidLine(const std::string& line) {
 
     // Extract and validate the float part
     std::string floatPart = line.substr(13);
-    char* end;
+    char *end;
     double value = std::strtod(floatPart.c_str(), &end);
 
-    // Check if conversion consumed the entire string and if value is in range
+    bool isValid = true;
     if (*end != '\0') {
         cout << "Error: bad input => " << line << std::endl;
-        return false;
-    }
-    if (value < 0.0) {
+        isValid = false;
+    } 
+    else if (value < 0.0) {
         cout << "Error: not a positive number." << std::endl;
-        return false;
-    }
-    if (value > 1000.0) {
+        isValid = false;
+    } 
+    else if (value > 1000.0) {
         cout << "Error: too large number." << std::endl;
-        return false;
+        isValid = false;
     }
-    return true;
+    return isValid;
 }
 
-void BitcoinExchange::readInput(const std::string& input_path) {
+void BitcoinExchange::readInput(const std::string &input_path)
+{
     // Check for directory traversal attempts
     if (input_path.find("..") != std::string::npos || input_path.find('/') != std::string::npos) {
         throw std::runtime_error("Access to the specified file path is not allowed.");
@@ -85,42 +119,39 @@ void BitcoinExchange::readInput(const std::string& input_path) {
 
     // Read the entire file into m_input_data
     m_input_data.assign((std::istreambuf_iterator<char>(inputFile)),
-                         std::istreambuf_iterator<char>());
+                        std::istreambuf_iterator<char>());
 }
 
-void BitcoinExchange::processInput() {
+void BitcoinExchange::processInput()
+{
     std::istringstream iss(m_input_data);
     std::string line;
     double amount;
     char *end;
 
-    while (std::getline(iss, line)) {
-        if (!isValidLine(line)) {
+    while (std::getline(iss, line))
+    {
+        if (!isValidLine(line) || !isValidDate(line)) {
             continue;
         }
-        std::string part = line.substr(0, 10); // Assuming 'part' is the date in 'yyyy-mm-dd' format
+        std::string part = line.substr(0, 10);
 
-        std::map<std::string, float>::iterator it = m_db_data.lower_bound(part);
-        if (it == m_db_data.end()) {
-            // No element is greater than or equal to 'part', hence no younger date found
-            std::cout << "No younger date found for " << part << std::endl;
-        } else {
-            // Found a date that is not younger than 'part'
-            // Directly use 'it' without decrementing, as 'lower_bound' already gives us the closest non-younger date
+        std::map<std::string, float>::iterator it = m_db_data.upper_bound(part);
+        if (it == m_db_data.begin()) {
+            std::cout << "All dates in DB are younger than " << part << std::endl;
+        }
+        else {
+            --it;
             amount = strtod(line.c_str() + 13, &end);
             std::cout << it->first << " => " << amount << " = " << it->second * amount << std::endl;
         }
     }
 }
 
-
-
-void BitcoinExchange::printDB() {
+void BitcoinExchange::printDB()
+{
     std::map<std::string, float>::iterator it = m_db_data.begin();
     for (; it != m_db_data.end(); ++it) {
         std::cout << it->first << " : " << std::fixed << std::setprecision(2) << it->second << std::endl;
     }
 }
-
-
-

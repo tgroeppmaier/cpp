@@ -16,27 +16,23 @@ class BitcoinExchange {
     private:
         string m_db_path;
         map<string, float> m_db_data;
-        // map<string, float> m_input_data;
         string m_input_data;
 
-
         bool isValidLine(const std::string& line);
-        
-        // bool isValidAmount(const std::string& amountStr, float& amount);
+        bool isValidDate(const std::string& line);
 
     public:
-        // BitcoinExchange();
         BitcoinExchange(const string& db_path);
+        BitcoinExchange(const BitcoinExchange& other);
         ~BitcoinExchange();
+
+        BitcoinExchange& operator=(const BitcoinExchange& other);
 
         void initializeDB();
         void readInput(const string& input_path);
         void processInput();
 
         void printDB();
-
 };
-
-
 
 #endif
