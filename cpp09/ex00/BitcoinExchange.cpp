@@ -39,7 +39,7 @@ void BitcoinExchange::initializeDB()
         if (std::getline(lineStream, dateStr, ',') && std::getline(lineStream, rateStr))
         {
             float rate;
-            std::istringstream(rateStr) >> rate; // create an ss object and then extract it into rate
+            std::istringstream(rateStr) >> rate; // create a tmp ss object and then extract it into rate
             m_db_data[dateStr] = rate;
         }
     }
@@ -60,7 +60,7 @@ bool BitcoinExchange::isValidDate(const std::string &line)
         std::cout << "Error: Date out of range => " << date << std::endl;
         return false;
     }
-    return true; // Date is valid
+    return true;
 }
 
 bool BitcoinExchange::isValidLine(const std::string &line)
