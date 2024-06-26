@@ -11,18 +11,15 @@ using std::cout;
 
 class RPN {
     private:
-        // long result;
         stack<long> m_operands;
 
     public:
         RPN();
         ~RPN();
+        RPN(const RPN& other);
+        RPN& operator=(const RPN& other);
 
         static long execute_expression(std::istringstream& expression);
-
-
 };
-
-
 
 #endif

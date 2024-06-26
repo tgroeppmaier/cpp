@@ -1,72 +1,87 @@
 #include "RPN.hpp"
-#include <cctype> // For isdigit
+#include <string>
+#include <stack>
+#include <sstream>
+#include <iostream>
+#include <cstdlib>
 #include <stdexcept>
 
-RPN::RPN() {} 
+RPN::RPN() : m_operands() {}
 
-RPN::~RPN() {} 
+RPN::RPN(const RPN& other) : m_operands(other.m_operands) {}
 
-bool isNumber(const string& token) {
-    if (token.empty()) return false;
+RPN::~RPN() {}
 
-    for (std::string::const_iterator it = token.begin(); it != token.end(); ++it) {
-        if (!std::isdigit(static_cast<unsigned char>(*it))) return false;
+RPN& RPN::operator=(const RPN& other) {
+    if (this != &other) {
+        this->m_operands = other.m_operands;
     }
-
-    return true;
+    return *this;
 }
 
-bool isOperator(const string& token) {
-    if (token.length() != 1 || (token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/'))
+bool isNumber(const std::string& token) {
+    if (token.empty()) {
         return false;
+    }
+    for (std::string::const_iterator it = token.begin(); it != token.end(); ++it) {
+        if (!std::isdigit(static_cast<unsigned char>(*it))) {
+            return false;
+        }
+    }
     return true;
 }
 
-long calculate (stack<long>& operands, const string& token) {    
-    if (operands.size() < 2) {
-            throw std::runtime_error("Insufficient operands for operation.");
-        }
+bool isOperator(const std::string& token) {
+    return token.length() == 1 && std::string("+-*/").find(token) != std::string::npos;
+}
 
-    long num1 = operands.top();
-    operands.pop();
+long calculate(std::stack<long>& operands, const std::string& token) {    
+    if (operands.size() < 2) 
+        throw std::runtime_error("Insufficient operands for operation.");
+
     long num2 = operands.top();
     operands.pop();
+    long num1 = operands.top();
+    operands.pop();
 
-    if (token[0] == '+') {
-        return num1 + num2;
-    }
-    if (token[0] == '-') {
-        return num1 - num2;
-    }
-    if (token[0] == '*') {
-        return num1 * num2;
-    }
-    if (token[0] == '/') {
-        if (num2 == 0)
-            throw std::runtime_error("Division by zero");
-        return num1 / num2;
+    switch (token[0]) {
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': 
+            if (num2 == 0) {
+                throw std::runtime_error("Division by zero");
+            }
+            return num1 / num2;
+        default: throw std::runtime_error("Unsupported operation");
     }
 }
 
 long RPN::execute_expression(std::istringstream& expression) {
-    long result = 0;
-    stack<long> operands;
-    string token;
-    double number;
-    char *end;
+    std::stack<long> operands;
+    std::string token;
 
-    while(expression >> token) {
+    while (expression >> token) {
         if (isNumber(token)) {
-            operands.push(strtod(token.c_str(), &end));
-        }
+            char* end;
+            long num = std::strtol(token.c_str(), &end, 10);
+            if (*end == 0) {
+                operands.push(num);
+            } else {
+                throw std::runtime_error("Invalid number");
+            }
+        } 
         else if (isOperator(token)) {
             operands.push(calculate(operands, token));
-        }
+        } 
         else {
-            cout << "Error. Invalid Input" << std::endl;
-            return result;
+            throw std::runtime_error("Invalid input");
         }
     }
+
+    if (operands.empty()) 
+        throw std::runtime_error("No operands in expression.");
+    if (operands.size() != 1) 
+        throw std::runtime_error("More than one number left in stack.");
     return operands.top();
 }
-
