@@ -17,11 +17,7 @@ class PmergeMe {
 
     public:
         static void sort_vector(vector<int>& vec);
-        
-    
-    void merge_sort(vector<int>& vec, int left, int right);
-    void merge(vector<int>& vec, int left, int mid, int right);
-    
+
         // static void sort_list(list<int>& lis);
 };
 
