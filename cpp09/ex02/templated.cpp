@@ -23,6 +23,8 @@ void initJacobsthal() {
     }
 }
 
+// The std::lower_bound function in C++ is used to find the first position in a sorted range where a given value can be inserted without violating the order of the range. It performs a binary search with a complexity of O(log n), where n is the distance between begin and end.
+
 template<typename Iterator>
 Iterator findInsertPosition(Iterator begin, Iterator end, const typename std::iterator_traits<Iterator>::value_type& value) {
     return std::lower_bound(begin, end, value);
@@ -30,74 +32,81 @@ Iterator findInsertPosition(Iterator begin, Iterator end, const typename std::it
 
 template<typename Container>
 void fordJohnsonSort(Container& cont) {
-    if (cont.size() <= 1) return;
-
-    Container mainChain;
-    Container pendChain;
-    
-    // Step 1: Pair elements and create main and pend chains
-    while (cont.size() >= 2) {
-        typename Container::value_type first = cont.front();
-        cont.erase(cont.begin());
-        typename Container::value_type second = cont.front();
-        cont.erase(cont.begin());
-        
-        if (first < second) {
-            mainChain.push_back(second);
-            pendChain.push_back(first);
-        } else {
-            mainChain.push_back(first);
-            pendChain.push_back(second);
-        }
-    }
+    if (cont.size() <= 1) 
+        return;
 
     // Handle odd-sized container
-    typename Container::value_type odd;
     bool hasOdd = false;
-    if (!cont.empty()) {
-        odd = cont.front();
-        cont.erase(cont.begin());
+    typename Container::value_type odd;
+    if (cont.size() % 2 != 0) {
+        odd = cont.back();
+        cont.pop_back();
         hasOdd = true;
     }
 
-    // Step 2: Recursively sort main chain
-    if (mainChain.size() > 1) {
-        fordJohnsonSort(mainChain);
+    // Create pairs
+    typedef std::pair<typename Container::value_type, typename Container::value_type> ValuePair;
+    std::vector<ValuePair> pairs;
+    for (typename Container::iterator it = cont.begin(); it != cont.end(); ++it) {
+        typename Container::value_type first = *it;
+        ++it;
+        typename Container::value_type second = *it;
+        // Sort the pair internally
+        if (second > first) {
+            pairs.push_back(std::make_pair(second, first));
+        }
+        else 
+            pairs.push_back(std::make_pair(first, second));
     }
+
+    // Sort the sequences of pairs by the first value
+    std::sort(pairs.begin(), pairs.end());
+
+
+    // Push the second number and then first number of the first pair into result 
+    Container result, pendChain;
+    if (!pairs.empty()) {
+        result.push_back(pairs.front().second);
+        result.push_back(pairs.front().first);
+    }
+    
+    // Start from the second pair
+    for (typename std::vector<ValuePair>::iterator it = pairs.begin() + 1; it != pairs.end(); ++it) {
+        result.push_back(it->first);
+        pendChain.push_back(it->second);
+    }
+
 
     // Step 3: Merge pend elements into main chain
-    Container result = mainChain;
-    int jacobsthalIndex = 3;
-    typename Container::iterator pendIt = pendChain.begin();
+    // Container result = mainChain;
+ // Step 3: Merge pend elements into main chain
+int jacobsthalIndex = 3;
+typename Container::iterator pendIt = pendChain.begin();
 
-    // Insert first two elements of pend chain
-    if (!pendChain.empty()) {
+// Insert the first element from pend chain
+if (pendIt != pendChain.end()) {
+    result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
+    ++pendIt;
+}
+
+// Insert the second element from pend chain
+if (pendIt != pendChain.end()) {
+    result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
+    ++pendIt;
+}
+
+// Insert remaining elements using Jacobsthal numbers
+while (pendIt != pendChain.end() && jacobsthalIndex < JACOBSTHAL_SIZE) {
+    int nextJacobsthal = jacobsthal[jacobsthalIndex];
+    while (nextJacobsthal - 1 < static_cast<int>(pendChain.size()) && 
+           std::distance(pendChain.begin(), pendIt) < nextJacobsthal - 1) {
         result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
         ++pendIt;
-        if (pendIt != pendChain.end()) {
-            result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
-            ++pendIt;
-        }
-    }
-
-    // Insert remaining elements using Jacobsthal numbers
-    while (pendIt != pendChain.end() && jacobsthalIndex < JACOBSTHAL_SIZE) {
-        int nextJacobsthal = jacobsthal[jacobsthalIndex];
-        while (nextJacobsthal - 1 < static_cast<int>(pendChain.size()) && 
-               std::distance(pendChain.begin(), pendIt) < nextJacobsthal - 1) {
-            result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
-            ++pendIt;
-            if (pendIt == pendChain.end()) break;
-        }
         if (pendIt == pendChain.end()) break;
-        ++jacobsthalIndex;
     }
-
-    // Insert any remaining elements
-    while (pendIt != pendChain.end()) {
-        result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
-        ++pendIt;
-    }
+    if (pendIt == pendChain.end()) break;
+    ++jacobsthalIndex;
+}
 
     // Insert the odd element if it exists
     if (hasOdd) {
@@ -113,7 +122,7 @@ void printContainer(const Container& cont) {
     for (it = cont.begin(); it != cont.end(); ++it) {
         std::cout << *it << " ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl;
 }
 
 
