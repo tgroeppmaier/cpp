@@ -18,7 +18,7 @@ using std::string;
 class PmergeMe {
 private:
     template<typename Iterator>
-    static Iterator binarySearch(Iterator first, Iterator last, const typename std::iterator_traits<Iterator>::value_type& value) {
+    static Iterator binarySearch(Iterator first, Iterator last, int value) {
         while (first < last) {
             Iterator mid = first + (last - first) / 2;
             if (*mid < value) {
@@ -36,12 +36,11 @@ public:
         if (cont.size() <= 1) 
             return;
 
-        typedef typename Container::value_type ValueType;
-        typedef std::pair<ValueType, ValueType> ValuePair;
+        typedef std::pair<int, int> ValuePair;
 
         // Handle odd-sized container
         bool hasOdd = false;
-        ValueType odd;
+        int odd;
         if (cont.size() % 2 != 0) {
             odd = cont.back();
             cont.pop_back();
@@ -52,9 +51,9 @@ public:
         std::vector<ValuePair> pairs;
         typename Container::iterator it = cont.begin();
         while (it != cont.end()) {
-            ValueType first = *it++;
+            int first = *it++;
             if (it == cont.end()) break;
-            ValueType second = *it++;
+            int second = *it++;
             if (first > second) {
                 pairs.push_back(ValuePair(first, second));
             } else {

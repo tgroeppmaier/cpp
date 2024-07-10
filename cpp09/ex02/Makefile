@@ -1,5 +1,5 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -Weffc++ -Wshadow -g -std=c++98 #-Wconversion -Wsign-conversion
+CFLAGS = -Wall -Wextra -Werror -Weffc++ -Wshadow -g -std=c++98
 NAME = PmergeMe
 SRC = main.cpp
 OBJ = $(SRC:.cpp=.o)

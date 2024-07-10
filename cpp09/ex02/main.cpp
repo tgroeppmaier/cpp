@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-   std::vector<int> values;
+    std::vector<int> values;
     char* end;
     for (int i = 1; i < argc; ++i) {
         long number = std::strtol(argv[i], &end, 10);
