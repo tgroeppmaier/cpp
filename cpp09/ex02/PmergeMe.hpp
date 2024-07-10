@@ -15,85 +15,63 @@ using std::list;
 using std::string;
 
 class PmergeMe {
-    private:
-        template<typename Iterator>
-        static Iterator findInsertPosition(Iterator first, Iterator last, const typename std::iterator_traits<Iterator>::value_type& value) {
-            while (first != last && *first < value) {
-                ++first;
-            }
-            return first;
-        }
+private:
+    template<typename RandomAccessIterator>
+    static RandomAccessIterator findInsertPosition(RandomAccessIterator first, RandomAccessIterator last, const typename std::iterator_traits<RandomAccessIterator>::value_type& value) {
+    }
 
-    public:
-        template<typename Container>
-        static void FordJohnsonSort(Container& cont) {
-            if (cont.size() <= 1) 
-                return;
+public:
+    template<typename RandomAccessContainer>
+    static void FordJohnsonSort(RandomAccessContainer& cont) {
+        if (cont.size() <= 1) 
+            return;
 
-            // Handle odd-sized container
         bool hasOdd = false;
-        typename Container::value_type odd;
+        typename RandomAccessContainer::value_type odd;
         if (cont.size() % 2 != 0) {
             odd = cont.back();
             cont.pop_back();
             hasOdd = true;
         }
 
-        // Create pairs
-        typedef std::pair<typename Container::value_type, typename Container::value_type> ValuePair;
+        typedef std::pair<typename RandomAccessContainer::value_type, typename RandomAccessContainer::value_type> ValuePair;
         std::vector<ValuePair> pairs;
-        typename Container::iterator it = cont.begin();
-        while (it != cont.end()) {
-            typename Container::value_type first = *it;
-            ++it;
-            typename Container::value_type second = *it;
-            ++it;
-            // Sort the pair internally. Higher number is first
+        for (typename RandomAccessContainer::iterator it = cont.begin(); it != cont.end(); std::advance(it, 2)) {
+            typename RandomAccessContainer::value_type first = *it;
+            typename RandomAccessContainer::value_type second = *(++it);
             if (first > second) {
-                pairs.push_back(std::make_pair(first, second));
+                pairs.push_back(ValuePair(first, second));
+            } else {
+                pairs.push_back(ValuePair(second, first));
             }
-            else 
-                pairs.push_back(std::make_pair(second, first));
         }
 
-        // Sort the sequences of pairs by the first value
         std::sort(pairs.begin(), pairs.end());
 
-        // Initialize result and pendChain
-        Container result, pendChain;
-        
-        // Push the first element of each pair into result, and the second into pendChain
+        RandomAccessContainer result, pendChain;
         for (typename std::vector<ValuePair>::const_iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt) {
             result.push_back(pairIt->first);
             pendChain.push_back(pairIt->second);
         }
 
-        // Merge pend elements into main chain
-        typename Container::iterator pendIt = pendChain.begin();
-        while (pendIt != pendChain.end()) {
-            result.insert(findInsertPosition(result.begin(), result.end(), *pendIt), *pendIt);
-            ++pendIt;
+        typename RandomAccessContainer::iterator resultIt = result.begin();
+        for (typename RandomAccessContainer::iterator pendIt = pendChain.begin(); pendIt != pendChain.end(); ++pendIt) {
+            // Find the insert position using binary search within the limited range
+            typename RandomAccessContainer::iterator insertPos = findInsertPosition(result.begin(), resultIt, *pendIt);
+            result.insert(insertPos, *pendIt);
+            // Ensure the next search starts from the next position to maintain the original pairing limit
+            if (resultIt != result.end()) {
+                ++resultIt;
+            }
         }
 
-        // Insert the odd element if it exists
         if (hasOdd) {
-            result.insert(findInsertPosition(result.begin(), result.end(), odd), odd);
+            typename RandomAccessContainer::iterator insertPos = findInsertPosition(result.begin(), result.end(), odd);
+            result.insert(insertPos, odd);
         }
 
-        cont = result;
-    }
-
-    template<typename Container>
-    static void printContainer(const Container& cont) {
-        typename Container::const_iterator it;
-        for (it = cont.begin(); it != cont.end(); ++it) {
-            std::cout << *it << " ";
-        }
-        std::cout << std::endl << std::endl;
+        cont.swap(result); // Efficiently replace cont's contents with result
     }
 };
-
-
-
 
 #endif
