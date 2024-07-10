@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <string>
 #include <deque>
+#include <limits>
 
 using std::vector;
 using std::list;
