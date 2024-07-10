@@ -25,17 +25,17 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 void BitcoinExchange::initializeDB()
 {
-    std::ifstream dbFile(m_db_path.c_str());
-    if (!dbFile) {
+    std::ifstream dbInputStream(m_db_path.c_str());
+    if (!dbInputStream) {
         throw std::runtime_error("Failed to open database file at " + m_db_path);
     }
 
     std::string line;
-    std::getline(dbFile, line); // read and discard first line
-    while (std::getline(dbFile, line))
+    std::getline(dbInputStream, line); // read and discard first line
+    while (std::getline(dbInputStream, line))
     {
         std::istringstream lineStream(line);
-        string dateStr, rateStr;
+        std::string dateStr, rateStr;
         if (std::getline(lineStream, dateStr, ',') && std::getline(lineStream, rateStr))
         {
             float rate;
@@ -50,7 +50,7 @@ bool BitcoinExchange::isValidDate(const std::string &line)
     std::string date = line.substr(0, 10);
 
     int year, month, day;
-    std::istringstream dateStream(date.substr(0, 4) + " " + date.substr(5, 2) + " " + date.substr(8, 2));
+    std::istringstream dateStream(date.substr(0, 4) + " " + date.substr(5, 2) + " " + date.substr(8, 2)); // start position + length
     dateStream >> year >> month >> day;
 
     int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -68,7 +68,7 @@ bool BitcoinExchange::isValidLine(const std::string &line)
     // Check format "yyyy-mm-dd | "
     if (line.length() < 13 || line[4] != '-' || line[7] != '-' || line[10] != ' ' || line[11] != '|' || line[12] != ' ')
     {
-        cout << "Error: bad input => " << line << std::endl;
+        std::cout << "Error: bad input => " << line << std::endl;
         return false;
     }
 
@@ -79,7 +79,7 @@ bool BitcoinExchange::isValidLine(const std::string &line)
             continue; // Skip '-' characters
         if (!std::isdigit(line[i]))
         {
-            cout << "Error: bad input => " << line << std::endl;
+            std::cout << "Error: bad input => " << line << std::endl;
             return false;
         }
     }
@@ -91,15 +91,15 @@ bool BitcoinExchange::isValidLine(const std::string &line)
 
     bool isValid = true;
     if (*end != '\0') {
-        cout << "Error: bad input => " << line << std::endl;
+        std::cout << "Error: bad input => " << line << std::endl;
         isValid = false;
     } 
     else if (value < 0.0) {
-        cout << "Error: not a positive number." << std::endl;
+        std::cout << "Error: not a positive number." << std::endl;
         isValid = false;
     } 
     else if (value > 1000.0) {
-        cout << "Error: too large number." << std::endl;
+        std::cout << "Error: too large number." << std::endl;
         isValid = false;
     }
     return isValid;
@@ -124,23 +124,23 @@ void BitcoinExchange::readInput(const std::string &input_path)
 
 void BitcoinExchange::processInput()
 {
-    std::istringstream iss(m_input_data);
+    std::istringstream inputStream(m_input_data);
     std::string line;
     double amount;
     char *end;
 
-    while (std::getline(iss, line))
+    while (std::getline(inputStream, line))
     {
         if (!isValidLine(line) || !isValidDate(line)) {
             continue;
         }
         std::string part = line.substr(0, 10);
 
-        std::map<std::string, float>::iterator it = m_db_data.upper_bound(part);
+        std::map<std::string, float>::iterator it = m_db_data.upper_bound(part); // find matching date
         if (it == m_db_data.begin()) {
             std::cout << "All dates in DB are younger than " << part << std::endl;
         }
-        else {
+        else { // if date could not be found, take next higher and decrement 1
             --it;
             amount = strtod(line.c_str() + 13, &end);
             std::cout << it->first << " => " << amount << " = " << it->second * amount << std::endl;
