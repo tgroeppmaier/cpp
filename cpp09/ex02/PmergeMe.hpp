@@ -16,29 +16,44 @@ using std::string;
 
 class PmergeMe {
 private:
-    template<typename RandomAccessIterator>
-    static RandomAccessIterator findInsertPosition(RandomAccessIterator first, RandomAccessIterator last, const typename std::iterator_traits<RandomAccessIterator>::value_type& value) {
+    template<typename Iterator>
+    static Iterator binarySearch(Iterator first, Iterator last, const typename std::iterator_traits<Iterator>::value_type& value) {
+        while (first < last) {
+            Iterator mid = first + (last - first) / 2;
+            if (*mid < value) {
+                first = mid + 1;
+            } else {
+                last = mid;
+            }
+        }
+        return first;
     }
 
 public:
-    template<typename RandomAccessContainer>
-    static void FordJohnsonSort(RandomAccessContainer& cont) {
+    template<typename Container>
+    static void FordJohnsonSort(Container& cont) {
         if (cont.size() <= 1) 
             return;
 
+        typedef typename Container::value_type ValueType;
+        typedef std::pair<ValueType, ValueType> ValuePair;
+
+        // Handle odd-sized container
         bool hasOdd = false;
-        typename RandomAccessContainer::value_type odd;
+        ValueType odd;
         if (cont.size() % 2 != 0) {
             odd = cont.back();
             cont.pop_back();
             hasOdd = true;
         }
 
-        typedef std::pair<typename RandomAccessContainer::value_type, typename RandomAccessContainer::value_type> ValuePair;
+        // Create pairs
         std::vector<ValuePair> pairs;
-        for (typename RandomAccessContainer::iterator it = cont.begin(); it != cont.end(); std::advance(it, 2)) {
-            typename RandomAccessContainer::value_type first = *it;
-            typename RandomAccessContainer::value_type second = *(++it);
+        typename Container::iterator it = cont.begin();
+        while (it != cont.end()) {
+            ValueType first = *it++;
+            if (it == cont.end()) break;
+            ValueType second = *it++;
             if (first > second) {
                 pairs.push_back(ValuePair(first, second));
             } else {
@@ -46,31 +61,37 @@ public:
             }
         }
 
+        // Sort the sequences of pairs by the first value
         std::sort(pairs.begin(), pairs.end());
 
-        RandomAccessContainer result, pendChain;
+        // Clear the original container
+        cont.clear();
+
+        // Push the first element of each pair into cont
         for (typename std::vector<ValuePair>::const_iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt) {
-            result.push_back(pairIt->first);
-            pendChain.push_back(pairIt->second);
+            cont.push_back(pairIt->first);
         }
 
-        typename RandomAccessContainer::iterator resultIt = result.begin();
-        for (typename RandomAccessContainer::iterator pendIt = pendChain.begin(); pendIt != pendChain.end(); ++pendIt) {
-            // Find the insert position using binary search within the limited range
-            typename RandomAccessContainer::iterator insertPos = findInsertPosition(result.begin(), resultIt, *pendIt);
-            result.insert(insertPos, *pendIt);
-            // Ensure the next search starts from the next position to maintain the original pairing limit
-            if (resultIt != result.end()) {
-                ++resultIt;
-            }
+        // Merge pend elements into main chain
+        for (size_t i = 0; i < pairs.size(); ++i) {
+            typename Container::iterator searchEnd = cont.begin() + i + 1;
+            typename Container::iterator insertPos = binarySearch(cont.begin(), searchEnd, pairs[i].second);
+            cont.insert(insertPos, pairs[i].second);
         }
 
+        // Insert the odd element if it exists
         if (hasOdd) {
-            typename RandomAccessContainer::iterator insertPos = findInsertPosition(result.begin(), result.end(), odd);
-            result.insert(insertPos, odd);
+            typename Container::iterator insertPos = binarySearch(cont.begin(), cont.end(), odd);
+            cont.insert(insertPos, odd);
         }
+    }
 
-        cont.swap(result); // Efficiently replace cont's contents with result
+    template<typename Container>
+    static void printContainer(const Container& cont) {
+        for (typename Container::const_iterator it = cont.begin(); it != cont.end(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
     }
 };
 
