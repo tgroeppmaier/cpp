@@ -5,9 +5,13 @@
 #include <iostream>
 #include <sstream>
 
+using std::stack;
+using std::string;
+using std::cout;
+
 class RPN {
     private:
-        std::stack<long> m_operands;
+        stack<long> m_operands;
 
     public:
         RPN();
@@ -15,7 +19,7 @@ class RPN {
         RPN(const RPN& other);
         RPN& operator=(const RPN& other);
 
-        static double execute_expression(std::istringstream& expression);
+        static long execute_expression(std::istringstream& expression);
 };
 
 #endif

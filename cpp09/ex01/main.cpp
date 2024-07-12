@@ -6,9 +6,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
-    std::istringstream inputStream(argv[1]);
+    std::istringstream iss(argv[1]);
     try {
-        std::cout << RPN::execute_expression(inputStream) << std::endl;
+        std::cout << RPN::execute_expression(iss) << std::endl;
     } 
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
