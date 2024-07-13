@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
+#include <cmath>
 
 RPN::RPN() : m_operands() {}
 
@@ -19,36 +20,34 @@ RPN& RPN::operator=(const RPN& other) {
     return *this;
 }
 
-bool isNumber(const std::string& token) {
+bool isNumber(const std::string& token, double& num) {
     if (token.empty()) {
         return false;
     }
-    for (std::string::const_iterator it = token.begin(); it != token.end(); ++it) {
-        if (!std::isdigit(static_cast<unsigned char>(*it))) {
-            return false;
-        }
+    char* end;
+    num = std::strtod(token.c_str(), &end); // Convert string to double
+    // Check if conversion is successful and the number is within the specified range
+    if (*end == 0 && num > -10 && num < 10) { 
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool isOperator(const std::string& token) {
     return token.length() == 1 && std::string("+-*/").find(token) != std::string::npos;
 }
 
-long calculate(std::stack<long>& operands, const std::string& token) {    
-    if (operands.size() < 2) 
-        throw std::runtime_error("Insufficient operands for operation.");
-
-    long num2 = operands.top();
+double calculate(std::stack<double>& operands, const std::string& token) {
+    double num2 = operands.top();
     operands.pop();
-    long num1 = operands.top();
+    double num1 = operands.top();
     operands.pop();
 
     switch (token[0]) {
         case '+': return num1 + num2;
         case '-': return num1 - num2;
         case '*': return num1 * num2;
-        case '/': 
+        case '/':
             if (num2 == 0) {
                 throw std::runtime_error("Division by zero");
             }
@@ -57,19 +56,14 @@ long calculate(std::stack<long>& operands, const std::string& token) {
     }
 }
 
-long RPN::execute_expression(std::istringstream& expression) {
-    std::stack<long> operands;
+double RPN::execute_expression(std::istringstream& expression) {
+    std::stack<double> operands;
     std::string token;
 
     while (expression >> token) {
-        if (isNumber(token)) {
-            char* end;
-            long num = std::strtol(token.c_str(), &end, 10);
-            if (*end == 0) {
-                operands.push(num);
-            } else {
-                throw std::runtime_error("Invalid number");
-            }
+        double num;
+        if (isNumber(token, num)) {
+            operands.push(num);
         } 
         else if (isOperator(token)) {
             operands.push(calculate(operands, token));
