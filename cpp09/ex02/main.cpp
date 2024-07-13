@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include "limits"
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -6,7 +7,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::vector<int> values;
+    std::vector<int> vec;
     char* end;
     for (int i = 1; i < argc; ++i) {
         long number = std::strtol(argv[i], &end, 10);
@@ -15,32 +16,35 @@ int main(int argc, char* argv[]) {
             std::cout << "Error: Number out of bounds " << argv[i] << std::endl;
             return 1;
         }
-        values.push_back(static_cast<int>(number));
+        vec.push_back(static_cast<int>(number));
     }
+
+    std::deque<int> deq;
+    deq.assign(vec.begin(), vec.end());
 
     double duration;
     std::cout << "Before: ";
-    PmergeMe::printContainer(values);
+    PmergeMe::printContainer(vec);
 
     clock_t start = clock();
-    PmergeMe::FordJohnsonSort(values);
+    PmergeMe::FordJohnsonSort(vec);
     clock_t stop = clock();
 
     std::cout << "After: ";
-    PmergeMe::printContainer(values);
+    PmergeMe::printContainer(vec);
     duration = (double)(stop - start) / CLOCKS_PER_SEC * 1000000;
-    std::cout << "Time to process a range of " << values.size() << " elements with std::vector: " 
+    std::cout << "Time to process a range of " << vec.size() << " elements with std::vector: " 
         << duration << " us\n";
-
-    std::deque<int> lst;
-    lst.assign(values.begin(), values.end());
 
     start = clock();
-    PmergeMe::FordJohnsonSort(lst);
+    PmergeMe::FordJohnsonSort(deq);
     stop = clock();
+
     duration = (double)(stop - start) / CLOCKS_PER_SEC * 1000000;
-    std::cout << "Time to process a range of " << values.size() << " elements with std::deque: " 
+    std::cout << "Time to process a range of " << deq.size() << " elements with std::deque: " 
         << duration << " us\n";
-    
+    PmergeMe::checkSort(vec);
+    PmergeMe::checkSort(deq);
+
     return 0;
 }

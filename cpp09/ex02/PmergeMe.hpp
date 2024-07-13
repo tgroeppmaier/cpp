@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <string>
 #include <deque>
-#include <limits>
 
 using std::vector;
 using std::list;
@@ -18,12 +17,16 @@ using std::string;
 class PmergeMe {
 private:
     template<typename Iterator>
-    static Iterator binarySearch(Iterator first, Iterator last, int value) {
-        while (first < last) {
-            Iterator mid = first + (last - first) / 2;
+    static Iterator findInsertPosition(Iterator first, Iterator last, 
+                                       const int& value) {
+        while (first != last) {
+            Iterator mid = first;
+            std::advance(mid, std::distance(first, last) / 2);
             if (*mid < value) {
-                first = mid + 1;
-            } else {
+                first = mid;
+                ++first;
+            } 
+            else {
                 last = mid;
             }
         }
@@ -33,66 +36,85 @@ private:
 public:
     template<typename Container>
     static void FordJohnsonSort(Container& cont) {
-        if (cont.size() <= 1) 
-            return;
+        if (cont.size() <= 1) return;
 
-        typedef std::pair<int, int> ValuePair;
+        std::vector<int> tempCont(cont.begin(), cont.end());
+        cont.clear();
 
         // Handle odd-sized container
         bool hasOdd = false;
         int odd;
-        if (cont.size() % 2 != 0) {
-            odd = cont.back();
-            cont.pop_back();
+        if (tempCont.size() % 2 != 0) {
+            odd = tempCont.back();
+            tempCont.pop_back();
             hasOdd = true;
         }
 
         // Create pairs
+        typedef std::pair<int, int> ValuePair;
         std::vector<ValuePair> pairs;
-        typename Container::iterator it = cont.begin();
-        while (it != cont.end()) {
-            int first = *it++;
-            if (it == cont.end()) break;
-            int second = *it++;
+        for (size_t i = 0; i < tempCont.size(); i += 2) {
+            int first = tempCont[i];
+            int second = tempCont[i + 1];
             if (first > second) {
-                pairs.push_back(ValuePair(first, second));
+                pairs.push_back(std::make_pair(first, second));
             } else {
-                pairs.push_back(ValuePair(second, first));
+                pairs.push_back(std::make_pair(second, first));
             }
         }
 
         // Sort the sequences of pairs by the first value
         std::sort(pairs.begin(), pairs.end());
 
-        // Clear the original container
-        cont.clear();
+        // Initialize pendChain
+        std::vector<int> pendChain;
 
-        // Push the first element of each pair into cont
+        // Push the first element of each pair into cont, and the second into pendChain
         for (typename std::vector<ValuePair>::const_iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt) {
             cont.push_back(pairIt->first);
+            pendChain.push_back(pairIt->second);
         }
 
         // Merge pend elements into main chain
-        for (size_t i = 0; i < pairs.size(); ++i) {
-            typename Container::iterator searchEnd = cont.begin() + i + 1;
-            typename Container::iterator insertPos = binarySearch(cont.begin(), searchEnd, pairs[i].second);
-            cont.insert(insertPos, pairs[i].second);
+        for (size_t i = 0; i < pendChain.size(); ++i) {
+            typename Container::iterator pairPosition = cont.begin();
+            std::advance(pairPosition, i * 2 + 1);  // Position right after the higher number in the pair
+            typename Container::iterator insertPos = findInsertPosition(cont.begin(), pairPosition, pendChain[i]);
+            cont.insert(insertPos, pendChain[i]);
         }
 
         // Insert the odd element if it exists
         if (hasOdd) {
-            typename Container::iterator insertPos = binarySearch(cont.begin(), cont.end(), odd);
-            cont.insert(insertPos, odd);
+            cont.insert(findInsertPosition(cont.begin(), cont.end(), odd), odd);
         }
     }
 
     template<typename Container>
     static void printContainer(const Container& cont) {
-        for (typename Container::const_iterator it = cont.begin(); it != cont.end(); ++it) {
+        typename Container::const_iterator it;
+        for (it = cont.begin(); it != cont.end(); ++it) {
             std::cout << *it << " ";
         }
         std::cout << std::endl;
     }
+
+    template<typename Container>
+    static void checkSort(const Container& cont) {
+        typename Container::const_iterator it = cont.begin();
+        typename Container::const_iterator next = it;
+        ++next;
+
+        for (; next != cont.end(); ++it, ++next) { 
+            if (*it > *next) {
+                std::cout << "Error, not sorted correctly\n";
+                return;
+            }
+        }
+        std::cout << "Sorted correctly\n";
+    }
+
+
+
 };
 
 #endif
