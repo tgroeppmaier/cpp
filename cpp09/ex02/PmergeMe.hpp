@@ -34,60 +34,66 @@ private:
     }
 
 public:
-    template<typename Container>
-    static void FordJohnsonSort(Container& cont) {
-        if (cont.size() <= 1) return;
+template<typename Container>
+static void FordJohnsonSort(Container& cont) {
+    if (cont.size() <= 1) return;
 
-        std::vector<int> tempCont(cont.begin(), cont.end());
-        cont.clear();
+    // Create main chain and pend chain
+    Container mainChain;
+    std::vector<int> pendChain;
 
-        // Handle odd-sized container
-        bool hasOdd = false;
-        int odd;
-        if (tempCont.size() % 2 != 0) {
-            odd = tempCont.back();
-            tempCont.pop_back();
-            hasOdd = true;
-        }
+    // Handle odd-sized container
+    bool hasOdd = false;
+    int odd;
+    if (cont.size() % 2 != 0) {
+        typename Container::iterator lastIt = cont.end();
+        --lastIt;
+        odd = *lastIt;
+        cont.erase(lastIt);
+        hasOdd = true;
+    }
 
-        // Create pairs
-        typedef std::pair<int, int> ValuePair;
-        std::vector<ValuePair> pairs;
-        for (size_t i = 0; i < tempCont.size(); i += 2) {
-            int first = tempCont[i];
-            int second = tempCont[i + 1];
-            if (first > second) {
-                pairs.push_back(std::make_pair(first, second));
-            } else {
-                pairs.push_back(std::make_pair(second, first));
-            }
-        }
-
-        // Sort the sequences of pairs by the first value
-        std::sort(pairs.begin(), pairs.end());
-
-        // Initialize pendChain
-        std::vector<int> pendChain;
-
-        // Push the first element of each pair into cont, and the second into pendChain
-        for (typename std::vector<ValuePair>::const_iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt) {
-            cont.push_back(pairIt->first);
-            pendChain.push_back(pairIt->second);
-        }
-
-        // Merge pend elements into main chain
-        for (size_t i = 0; i < pendChain.size(); ++i) {
-            typename Container::iterator pairPosition = cont.begin();
-            std::advance(pairPosition, i * 2 + 1);  // Position right after the higher number in the pair
-            typename Container::iterator insertPos = findInsertPosition(cont.begin(), pairPosition, pendChain[i]);
-            cont.insert(insertPos, pendChain[i]);
-        }
-
-        // Insert the odd element if it exists
-        if (hasOdd) {
-            cont.insert(findInsertPosition(cont.begin(), cont.end(), odd), odd);
+    // Create pairs
+    typedef std::pair<int, int> ValuePair;
+    std::vector<ValuePair> pairs;
+    typename Container::iterator it = cont.begin();
+    while (it != cont.end()) {
+        int first = *it;
+        ++it;
+        int second = *it;
+        ++it;
+        if (first > second) {
+            pairs.push_back(std::make_pair(first, second));
+        } else {
+            pairs.push_back(std::make_pair(second, first));
         }
     }
+
+    // Sort the sequences of pairs by the first value
+    std::sort(pairs.begin(), pairs.end());
+
+    // Push the first element of each pair into mainChain, and the second into pendChain
+    for (typename std::vector<ValuePair>::const_iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt) {
+        mainChain.push_back(pairIt->first);
+        pendChain.push_back(pairIt->second);
+    }
+
+    // Merge pend elements into main chain
+    for (size_t i = 0; i < pendChain.size(); ++i) {
+        typename Container::iterator pairPosition = mainChain.begin();
+        std::advance(pairPosition, i * 2 + 1);  // Position right after the higher number in the pair
+        typename Container::iterator insertPos = findInsertPosition(mainChain.begin(), pairPosition, pendChain[i]);
+        mainChain.insert(insertPos, pendChain[i]);
+    }
+
+    // Insert the odd element if it exists
+    if (hasOdd) {
+        mainChain.insert(findInsertPosition(mainChain.begin(), mainChain.end(), odd), odd);
+    }
+
+    // Swap mainChain with cont
+    cont.swap(mainChain);
+}
 
     template<typename Container>
     static void printContainer(const Container& cont) {
@@ -113,8 +119,26 @@ public:
         std::cout << "Sorted correctly\n";
     }
 
-
-
 };
+
+/* example: command line given: "5 10 1 0 22 3" 
+
+create pairs:           
+(5, 10), (1, 0), (22, 3)
+sort pairs internally:  
+(10, 5), (1, 0), (22, 3)
+sort pairs based on higher number:
+(1, 0), (10, 5), (22, 3)
+create main chain with higher numbers:
+1, 10, 22
+create pend chain with lower numbers:
+0, 5, 3
+merge from pend into main range is from beginning up to the number it was initially paired with
+0, 1, 10, 22
+0, 1, 5, 10, 22
+0, 1, 3, 5, 10, 22
+
+
+*/
 
 #endif
