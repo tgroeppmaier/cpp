@@ -20,16 +20,21 @@ private:
     static Iterator findInsertPosition(Iterator first, Iterator last, 
                                        const int& value) {
         while (first != last) {
+            // Calculate the middle iterator
             Iterator mid = first;
             std::advance(mid, std::distance(first, last) / 2);
+            
+            // If the middle element is less than the value, search in the right half
             if (*mid < value) {
                 first = mid;
-                ++first;
+                ++first; // Move past mid
             } 
+            // Otherwise, search in the left half
             else {
                 last = mid;
             }
         }
+        // Return the position where the value should be inserted
         return first;
     }
 
@@ -121,7 +126,16 @@ static void FordJohnsonSort(Container& cont) {
 
 };
 
-/* example: command line given: "5 10 1 0 22 3" 
+/* 
+
+1. Pairs are sorted internally: Each pair is sorted so that the higher number comes first.
+2. Sort pairs based on the higher number: The pairs are sorted based on the higher number.
+3. Create the main chain with higher numbers: Extract the higher numbers from each pair to form the main chain.
+4. Create the pend chain with lower numbers: Extract the lower numbers from each pair to form the pend chain.
+5. Merge the pend chain into the main chain: Insert elements from the pend chain into the main chain at the correct positions.
+6. Handle the odd element if it exists: If there is an odd element, insert it into the correct position in the main chain.
+
+example: command line given: "5 10 1 0 22 3" 
 
 create pairs:           
 (5, 10), (1, 0), (22, 3)
