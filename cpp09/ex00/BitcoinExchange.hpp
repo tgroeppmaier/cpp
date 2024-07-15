@@ -6,8 +6,6 @@
 #include <iostream>
 #include <map>
 
-#define DB_PATH "data.csv"
-
 class BitcoinExchange {
     private:
         std::string m_db_path;

@@ -1,5 +1,16 @@
 # Cpp 05
 
+- [Cpp 05](#cpp-05)
+  - [To know](#to-know)
+    - [Exceptions](#exceptions)
+  - [ex00](#ex00)
+  - [ex01](#ex01)
+  - [ex02](#ex02)
+    - [Task](#task)
+    - [Things to consider](#things-to-consider)
+  - [ex03](#ex03)
+
+
 This Project is about exceptions
 
 [Instructions](./cpp05.pdf)

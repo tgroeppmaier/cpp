@@ -367,3 +367,24 @@ obj->foo();  // Prints "Derived::foo()"
 Exception handling (the `try/catch` block) is typically done at a higher level in the code where you can handle the error appropriately. This could be in the `main` function or in another function that calls `incGrade`.
 
 The reason for this is that `incGrade` itself might not know what to do when an exception occurs. For example, if `incGrade` is part of a larger operation that needs to be rolled back when an error occurs, `incGrade` wouldn't have the necessary context to do that.
+
+#include <sstream>
+#include <string>
+#include <iostream>
+
+int main() {
+    std::string data = "123 3.14 Hello";
+    std::istringstream iss(data);
+    
+    int i;
+    double d;
+    std::string s;
+    
+    iss >> i >> d >> s;
+    
+    std::cout << "Integer: " << i << std::endl;
+    std::cout << "Double: " << d << std::endl;
+    std::cout << "String: " << s << std::endl;
+    
+    return 0;
+}

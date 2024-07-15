@@ -5,12 +5,13 @@
 #include <cstdlib> // For atof
 #include <cctype>  // Include this for std::isdigit
 
-BitcoinExchange::BitcoinExchange(const std::string &db_path) : m_db_path(db_path), m_db_data(), m_input_data() {}
+BitcoinExchange::BitcoinExchange(const std::string &db_path) 
+    : m_db_path(db_path), m_db_data(), m_input_data() {}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
     : m_db_path(other.m_db_path), m_db_data(other.m_db_data), m_input_data(other.m_input_data) {}
 
-BitcoinExchange::BitcoinExchange::~BitcoinExchange() {}
+BitcoinExchange::~BitcoinExchange() {}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 {
